@@ -7,14 +7,14 @@ import { RentalProvider } from './contexts/RentalContext';
 import AdminPages from './pages/admin/AdminPages';
 import './styles/admin/admin.css';
 
-// Existing Pages
+
 import GuestBrowse from './pages/GuestBrowse';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SellerDashboard from './pages/SellerDashboard';
 import RentalHome from './pages/RentalHome';
 
-// Rental/Seller Protected Route
+
 const ProtectedRoute = ({ children, requiredRole }) => {
   const token = localStorage.getItem('token');
   const userRole = localStorage.getItem('userRole');
