@@ -13,7 +13,7 @@ import { ToastContainer } from '../components/rental/Toast';
 import '../styles/rental.css';
 
 const RentalHome = () => {
-  const { cart } = useRental();  // ✅ Get cart from context
+  const { cart } = useRental();  
   const [cartOpen, setCartOpen] = useState(false);
   const [productModalOpen, setProductModalOpen] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -40,26 +40,26 @@ const RentalHome = () => {
     setBookingModalOpen(true);
   };
   
-  // ✅ FIXED: Handle cart checkout properly
+  
   const handleCheckout = () => {
-    // Check if cart is empty
+    
     if (cart.length === 0) {
       showToast('Error', 'Your cart is empty', 'error');
       return;
     }
     
-    // For now, use first item from cart
-    // Later you can handle multiple items differently
+    
+    
     const firstItem = cart[0];
     
-    // Create a product object from cart item
+    
     const productForBooking = {
       id: firstItem.productId,
       name: firstItem.product?.title || firstItem.product?.name || 'Product',
       description: firstItem.product?.description || '',
       pricePerMonth: firstItem.product?.pricePerMonth || firstItem.product?.price || 0,
       image: firstItem.product?.images?.[0] || firstItem.product?.image || '/placeholder.png',
-      // Pass cart item data
+      
       cartItemId: firstItem.id,
       tenure: firstItem.tenure,
       quantity: firstItem.quantity

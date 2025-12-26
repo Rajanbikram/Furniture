@@ -50,7 +50,7 @@ const SellerDashboard = () => {
 
       console.log('🔄 Fetching dashboard data from backend...');
 
-      const response = await axios.get('http://localhost:5000/api/seller/dashboard', {
+      const response = await axios.get('http:
         headers: { Authorization: `Bearer ${token}` }
       });
 

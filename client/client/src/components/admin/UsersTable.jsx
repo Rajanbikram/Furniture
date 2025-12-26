@@ -108,7 +108,7 @@ function UsersTable({ data, onBan, onDelete, onRoleChange, type = 'all' }) {
                   <td>{getStatusBadge(item)}</td>
                   <td>
                     <div className="action-buttons">
-                      {/* Activate/Deactivate - only for sellers */}
+                      {}
                       {item.type === 'seller' && (
                         <button
                           className="btn btn-sm btn-warning"
@@ -118,7 +118,7 @@ function UsersTable({ data, onBan, onDelete, onRoleChange, type = 'all' }) {
                         </button>
                       )}
 
-                      {/* Change Role - only for users (not sellers, not admins) */}
+                      {}
                       {item.type === 'user' && item.role !== 'admin' && (
                         <button
                           className="btn btn-sm btn-primary"
@@ -128,7 +128,7 @@ function UsersTable({ data, onBan, onDelete, onRoleChange, type = 'all' }) {
                         </button>
                       )}
 
-                      {/* Delete - for everyone except admins */}
+                      {}
                       {item.role !== 'admin' && (
                         <button
                           className="btn btn-sm btn-error"

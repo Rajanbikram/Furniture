@@ -24,7 +24,7 @@ export const RentalProvider = ({ children, showToast }) => {
     }
   }, []);
 
-  // ✅ Clear all user-specific data
+  
   const clearAllData = () => {
     console.log('🧹 Clearing all user data...');
     setCart([]);
@@ -35,7 +35,7 @@ export const RentalProvider = ({ children, showToast }) => {
     console.log('✅ All user data cleared');
   };
 
-  // ✅ NEW: Refetch all user data after login
+  
   const refetchUserData = async () => {
     console.log('🔄 Refetching user data after login...');
     const currentUser = authService.getUser();
@@ -297,7 +297,7 @@ export const RentalProvider = ({ children, showToast }) => {
     renewRental, 
     setUser,
     clearAllData,
-    refetchUserData  // ✅ NEW: Export refetch function
+    refetchUserData  
   };
 
   return <RentalContext.Provider value={value}>{children}</RentalContext.Provider>;

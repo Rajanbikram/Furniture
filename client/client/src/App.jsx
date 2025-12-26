@@ -38,12 +38,12 @@ function App() {
           <RentalProvider>
          
               <Routes>
-                {/* Public Routes */}
+                {}
                 <Route path="/" element={<GuestBrowse />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
 
-                {/* Protected Seller Routes */}
+                {}
                 <Route
                   path="/seller/dashboard"
                   element={
@@ -53,7 +53,7 @@ function App() {
                   }
                 />
 
-                {/* Protected Renter Routes */}
+                {}
                 <Route
                   path="/rental"
                   element={
@@ -71,14 +71,14 @@ function App() {
                   }
                 />
 
-                {/* Admin Routes - All go to AdminPages (dashboard) */}
+                {}
                 <Route path="/admin" element={<AdminPages />} />
                 <Route path="/admin/*" element={<AdminPages />} />
                 <Route path="/admin/login" element={<AdminPages />} />
                 <Route path="/admin/register" element={<AdminPages />} />
                 <Route path="/admin/dashboard" element={<AdminPages />} />
 
-                {/* 404 Fallback */}
+                {}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
            

@@ -38,7 +38,7 @@ const SellerDashboard = () => {
 
       console.log('📦 Dashboard API Response:', response.data);
 
-      // ✅ NEW - Fetch seller rentals
+      
       let sellerRentals = [];
       try {
         console.log('🔄 Fetching seller rentals...');
@@ -51,14 +51,14 @@ const SellerDashboard = () => {
         }
       } catch (rentalError) {
         console.error('⚠️ Error fetching seller rentals:', rentalError);
-        // Continue even if rentals fail
+        
       }
 
       if (response.data.success) {
         console.log('✅ Dashboard data loaded');
         console.log('📋 Listings count:', response.data.data.listings?.length || 0);
         
-        // ✅ Add seller rentals to dashboard data
+        
         setDashboardData({
           ...response.data.data,
           sellerRentals: sellerRentals
@@ -122,19 +122,19 @@ const SellerDashboard = () => {
     try {
       console.log('📤 Submitting listing:', listingData);
       
-      // Call API to create listing
+      
       const response = await api.post('/seller/listings', listingData);
       
       console.log('✅ API Response:', response.data);
       
       if (response.data.success) {
-        // Show success toast
+        
         showToast('Success', 'Listing created successfully', 'success');
         
-        // Close modal
+        
         setIsAddListingModalOpen(false);
         
-        // Wait a bit then refresh dashboard to show new listing
+        
         setTimeout(async () => {
           console.log('🔄 Refreshing dashboard after listing creation...');
           await fetchDashboardData();
@@ -146,7 +146,7 @@ const SellerDashboard = () => {
       console.error('❌ Error creating listing:', error);
       console.error('Error details:', error.response?.data);
       
-      // Show error message
+      
       const errorMessage = error.response?.data?.message || 'Failed to create listing';
       showToast('Error', errorMessage, 'error');
     }
@@ -262,7 +262,7 @@ const { seller, listings, rentalHistory, earnings, stats, sellerRentals } = dash
         </div>
       </main>
 
-      {/* Add Listing Modal */}
+      {}
       <AddListingModal
         isOpen={isAddListingModalOpen}
         onClose={handleCloseModal}

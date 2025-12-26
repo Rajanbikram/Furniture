@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = ({ seller = {}, onSearch, onLogout, notificationCount = 0 }) => {
   const sellerName = seller?.fullName || seller?.name || 'Seller';
-  const sellerAvatar = seller?.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face';
+  const sellerAvatar = seller?.avatar || 'https:
 
   return (
     <header className="header">

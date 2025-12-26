@@ -55,7 +55,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
       <div className={`cart-sidebar ${isOpen ? 'show' : ''}`}>
         <div className="cart-header">
           <h2>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http:
               <circle cx="8" cy="21" r="1"/>
               <circle cx="19" cy="21" r="1"/>
               <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
@@ -63,7 +63,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
             Your Cart (<span>{cart.reduce((sum, item) => sum + item.quantity, 0)}</span>)
           </h2>
           <button className="cart-close" onClick={onClose}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http:
               <path d="M18 6 6 18"/>
               <path d="m6 6 12 12"/>
             </svg>
@@ -72,7 +72,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
 
         {cart.length === 0 ? (
           <div className="cart-empty">
-            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http:
               <circle cx="8" cy="21" r="1"/>
               <circle cx="19" cy="21" r="1"/>
               <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
@@ -84,7 +84,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
           <>
             <div className="cart-items">
               {cart.map(item => {
-                // ✅ Handle different data structures
+                
                 const product = item.product || {};
                 const productImage = product.images?.[0] || product.image || '/placeholder.png';
                 const productName = product.title || product.name || 'Product';
@@ -98,7 +98,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
                           src={productImage} 
                           alt={productName}
                           onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/100x100?text=No+Image';
+                            e.target.src = 'https:
                           }}
                         />
                       </div>
@@ -106,7 +106,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
                         <div className="cart-item-header">
                           <h4>{productName}</h4>
                           <button className="cart-item-remove" onClick={() => removeFromCart(item.id)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <svg xmlns="http:
                               <path d="M3 6h18"/>
                               <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
                               <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
@@ -123,13 +123,13 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
                         <div className="cart-item-footer">
                           <div className="quantity-controls">
                             <button className="quantity-btn" onClick={() => handleQuantity(item, -1)}>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <svg xmlns="http:
                                 <path d="M5 12h14"/>
                               </svg>
                             </button>
                             <span className="quantity-value">{item.quantity}</span>
                             <button className="quantity-btn" onClick={() => handleQuantity(item, 1)}>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <svg xmlns="http:
                                 <path d="M5 12h14"/>
                                 <path d="M12 5v14"/>
                               </svg>
@@ -147,7 +147,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
             <div className="cart-promo">
               <div className="promo-input-group">
                 <div className="promo-input-wrapper">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg xmlns="http:
                     <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/>
                     <path d="M7 7h.01"/>
                   </svg>
@@ -157,7 +157,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
               </div>
               {appliedDiscount > 0 && (
                 <div className="promo-success">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg xmlns="http:
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                     <polyline points="22 4 12 14.01 9 11.01"/>
                   </svg>
@@ -166,7 +166,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
               )}
               <div className="student-discount">
                 <div className="student-discount-header">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg xmlns="http:
                     <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
                     <path d="M6 12v5c3 3 9 3 12 0v-5"/>
                   </svg>
@@ -174,7 +174,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
                 </div>
                 {studentDiscount ? (
                   <div className="promo-success">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg xmlns="http:
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                       <polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
@@ -182,7 +182,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
                   </div>
                 ) : (
                   <button className="btn btn-outline btn-sm" style={{width: '100%'}} onClick={applyStudentDiscount}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg xmlns="http:
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                       <polyline points="17 8 12 3 7 8"/>
                       <line x1="12" x2="12" y1="3" y2="15"/>

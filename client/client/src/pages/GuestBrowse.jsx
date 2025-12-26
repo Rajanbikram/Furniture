@@ -11,16 +11,16 @@ import '../styles/globals.css';
 const GuestBrowse = () => {
   const navigate = useNavigate();
   
-  // State
+  
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [deals, setDeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [toasts, setToasts] = useState([]);
-  const [sidebarOpen, setSidebarOpen] = useState(true); // ✅ Changed to true - sidebar open by default
+  const [sidebarOpen, setSidebarOpen] = useState(true); 
 
-  // Filter state
+  
   const [filters, setFilters] = useState({
     searchQuery: '',
     selectedCategory: 'all',
@@ -30,12 +30,12 @@ const GuestBrowse = () => {
     location: 'all'
   });
 
-  // Fetch data on component mount
+  
   useEffect(() => {
     fetchData();
   }, []);
 
-  // Apply filters whenever they change
+  
   useEffect(() => {
     applyFilters();
   }, [filters, allProducts]);
@@ -70,29 +70,29 @@ const GuestBrowse = () => {
     console.log('🔍 Applying filters:', filters);
     let filtered = [...allProducts];
 
-    // Search filter
+    
     if (filters.searchQuery) {
       filtered = filtered.filter(p =>
         p.title?.toLowerCase().includes(filters.searchQuery.toLowerCase())
       );
     }
 
-    // Category filter
+    
     if (filters.selectedCategory !== 'all') {
       filtered = filtered.filter(p =>
         p.category?.toLowerCase() === filters.selectedCategory.toLowerCase()
       );
     }
 
-    // ✅ FIXED: Location filter - Check both location field AND deliveryZones array
+    
     if (filters.location !== 'all') {
       filtered = filtered.filter(p => {
-        // Check if product has single location field
+        
         if (p.location && p.location === filters.location) {
           return true;
         }
         
-        // Check if product has deliveryZones array
+        
         if (p.deliveryZones && Array.isArray(p.deliveryZones)) {
           return p.deliveryZones.some(zone => 
             zone.toLowerCase() === filters.location.toLowerCase()
@@ -103,13 +103,13 @@ const GuestBrowse = () => {
       });
     }
 
-    // ✅ FIXED: Price range filter - Handle both price and pricePerMonth
+    
     filtered = filtered.filter(p => {
       const productPrice = p.pricePerMonth || p.price || 0;
       return productPrice >= filters.minPrice && productPrice <= filters.maxPrice;
     });
 
-    // Apply tenure discount
+    
     if (filters.tenure !== '3') {
       const tenureMonths = parseInt(filters.tenure);
       let discount = 0;
@@ -145,7 +145,7 @@ const GuestBrowse = () => {
     const id = Date.now();
     setToasts([...toasts, { id, title, description }]);
     
-    // Auto-remove after 3 seconds
+    
     setTimeout(() => {
       removeToast(id);
     }, 3000);
@@ -184,7 +184,7 @@ const GuestBrowse = () => {
 
   return (
     <div className="app-container">
-      {/* Header */}
+      {}
       <Header
         onSearch={handleSearch}
         showToast={showToast}
@@ -193,7 +193,7 @@ const GuestBrowse = () => {
         onRegisterClick={handleRegisterClick}
       />
 
-      {/* Sidebar */}
+      {}
       <Sidebar
         filters={filters}
         onFilterChange={handleFilterChange}
@@ -202,10 +202,10 @@ const GuestBrowse = () => {
         showToast={showToast}
       />
 
-      {/* Main Content */}
+      {}
       <main className={`main-content ${sidebarOpen ? 'with-sidebar' : ''}`}>
         <div className="container-custom">
-          {/* Deals Section */}
+          {}
           <section id="deals" className="mb-8">
             <h2 className="section-title">Top Deals</h2>
             <p className="section-subtitle">Exclusive offers just for you</p>
@@ -216,7 +216,7 @@ const GuestBrowse = () => {
             />
           </section>
 
-          {/* Products Section */}
+          {}
           <section className="mt-8">
             <div className="results-header">
               <div>
@@ -227,7 +227,7 @@ const GuestBrowse = () => {
               </div>
             </div>
 
-            {/* Products Grid */}
+            {}
             {products.length > 0 ? (
               <div className="products-grid">
                 {products.map((product) => (
@@ -254,7 +254,7 @@ const GuestBrowse = () => {
             )}
           </section>
 
-          {/* CTA Section */}
+          {}
           <section className="cta-section">
             <h3 className="cta-title">❤️ Found Something You Love?</h3>
             <p className="cta-text">
@@ -270,7 +270,7 @@ const GuestBrowse = () => {
         </div>
       </main>
 
-      {/* Toast Notifications */}
+      {}
       <div className="toast-container">
         {toasts.map((toast) => (
           <Toast

@@ -3,7 +3,7 @@ import React from 'react';
 function PaymentsTable({ payments, onStatusChange, filter, stats }) {
   const filteredPayments = payments.filter(p => filter === 'all' || p.status === filter);
 
-  // Format date helper
+  
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -16,7 +16,7 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
     });
   };
 
-  // Get status badge class
+  
   const getStatusBadgeClass = (status) => {
     switch(status) {
       case 'completed':
@@ -113,7 +113,7 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
                     </td>
                     <td style={{ textAlign: 'right' }}>
                       <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'flex-end' }}>
-                        {/* View Button */}
+                        {}
                         <button 
                           className="btn btn-ghost btn-icon" 
                           title="View Details"
@@ -127,7 +127,7 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
                           </svg>
                         </button>
 
-                        {/* Status Change Buttons */}
+                        {}
                         {payment.status === 'pending' && (
                           <>
                             <button 
@@ -161,7 +161,7 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
         </table>
       </div>
 
-      {/* Table Footer with Summary */}
+      {}
       {filteredPayments.length > 0 && (
         <div style={{ 
           padding: '1rem', 

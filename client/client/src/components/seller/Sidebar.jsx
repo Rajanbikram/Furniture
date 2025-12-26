@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Sidebar = ({ currentTab, onTabChange, stats = {}, onAddListing }) => {
-  // Default values for stats to prevent undefined errors
+  
   const safeStats = {
     pendingListings: stats?.pendingListings || 0,
     ...stats

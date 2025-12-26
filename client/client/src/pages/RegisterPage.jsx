@@ -26,7 +26,7 @@ const RegisterPage = () => {
       [name]: type === 'checkbox' ? checked : value
     });
     
-    // Clear error when user starts typing
+    
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' });
     }
@@ -81,16 +81,16 @@ const RegisterPage = () => {
     try {
       let response;
 
-      // ✅ Route based on role
+      
       if (formData.role === 'seller') {
-        // Seller registration - use 'name' instead of 'fullName'
+        
         response = await authAPI.registerSeller({
-          name: formData.fullName,  // Backend expects 'name' for sellers
+          name: formData.fullName,  
           email: formData.email,
           password: formData.password
         });
       } else {
-        // Admin/Renter registration
+        
         response = await authAPI.register({
           fullName: formData.fullName,
           email: formData.email,
@@ -124,22 +124,22 @@ const RegisterPage = () => {
   return (
     <div className="register-page">
       <div className="register-container">
-        {/* Logo Section */}
+        {}
         <div className="register-logo">
           <div className="logo-icon-large">🏠</div>
           <h1>RENTEASY NEPAL</h1>
           <p>Your trusted furniture rental partner</p>
         </div>
 
-        {/* Title */}
+        {}
         <div className="register-header">
           <h2>Create Account</h2>
           <p className="register-subtitle">Signup as Renter, Seller or Admin</p>
         </div>
 
-        {/* Register Form */}
+        {}
         <form onSubmit={handleSubmit} className="register-form">
-          {/* Full Name */}
+          {}
           <div className="form-group">
             <label htmlFor="fullName">
               Full Name <span className="required">*</span>
@@ -156,7 +156,7 @@ const RegisterPage = () => {
             {errors.fullName && <span className="error-text">{errors.fullName}</span>}
           </div>
 
-          {/* Email */}
+          {}
           <div className="form-group">
             <label htmlFor="email">
               Email <span className="required">*</span>
@@ -174,7 +174,7 @@ const RegisterPage = () => {
             {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
 
-          {/* Password */}
+          {}
           <div className="form-group">
             <label htmlFor="password">
               Password <span className="required">*</span>
@@ -191,7 +191,7 @@ const RegisterPage = () => {
             {errors.password && <span className="error-text">{errors.password}</span>}
           </div>
 
-          {/* Confirm Password */}
+          {}
           <div className="form-group">
             <label htmlFor="confirmPassword">
               Confirm Password <span className="required">*</span>
@@ -208,7 +208,7 @@ const RegisterPage = () => {
             {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
           </div>
 
-          {/* Role Selection */}
+          {}
           <div className="form-group">
             <label htmlFor="role">
               Select Role <span className="required">*</span>
@@ -228,7 +228,7 @@ const RegisterPage = () => {
             {errors.role && <span className="error-text">{errors.role}</span>}
           </div>
 
-          {/* Checkboxes */}
+          {}
           <div className="checkbox-group">
             <label className="checkbox-label">
               <input
@@ -242,7 +242,7 @@ const RegisterPage = () => {
             {errors.agreeTerms && <span className="error-text">{errors.agreeTerms}</span>}
           </div>
 
-          {/* Show isStudent only for renter role */}
+          {}
           {formData.role === 'renter' && (
             <div className="checkbox-group">
               <label className="checkbox-label">
@@ -257,19 +257,19 @@ const RegisterPage = () => {
             </div>
           )}
 
-          {/* Error Message */}
+          {}
           {errors.submit && (
             <div className="error-text" style={{ textAlign: 'center' }}>
               {errors.submit}
             </div>
           )}
 
-          {/* Register Button */}
+          {}
           <button type="submit" className="register-btn" disabled={loading}>
             {loading ? 'Registering...' : 'Register'}
           </button>
 
-          {/* Back Button */}
+          {}
           <button 
             type="button" 
             className="back-btn"
@@ -278,7 +278,7 @@ const RegisterPage = () => {
             ← Back to Browse
           </button>
 
-          {/* Login Link */}
+          {}
           <p className="login-link">
             Already have an account?{' '}
             <button type="button" onClick={handleLoginClick}>

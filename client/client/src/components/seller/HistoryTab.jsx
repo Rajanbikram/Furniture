@@ -1,9 +1,9 @@
 import React from 'react';
 
 const HistoryTab = ({ history }) => {
-  // ✅ Transform API data to match UI structure
+  
   const transformedHistory = history.map(rental => {
-    // Map status from API to UI format
+    
     let uiStatus = 'pending';
     if (rental.status === 'returned') {
       uiStatus = 'completed';

@@ -38,11 +38,11 @@ const LoginPage = () => {
     try {
       console.log('🔄 Attempting login...', { email: formData.email });
       
-      // ✅ Clear old user data BEFORE login
+      
       console.log('🧹 Clearing previous user data...');
       clearAllData();
       
-      // ✅ NEW: Try to detect user role from database
+      
       const response = await authAPI.login({
         email: formData.email,
         password: formData.password
@@ -53,7 +53,7 @@ const LoginPage = () => {
       if (response.data.success) {
         const { token } = response.data;
         
-        // ✅ Get user data and role from response
+        
         let userData;
         let userRole;
         
@@ -63,7 +63,7 @@ const LoginPage = () => {
           console.log('👤 Seller login:', userData);
         } else if (response.data.user) {
           userData = response.data.user;
-          userRole = userData.role; // admin or renter from DB
+          userRole = userData.role; 
           console.log('👤 User login:', userData, 'Role:', userRole);
         } else if (response.data.admin) {
           userData = response.data.admin;
@@ -78,19 +78,19 @@ const LoginPage = () => {
         console.log('🔑 Token:', token);
         console.log('👤 Role from DB:', userRole);
         
-        // Store in localStorage
+        
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('userRole', userRole);
         
-        // For admin, also store admin_token
+        
         if (userRole === 'admin') {
           localStorage.setItem('admin_token', token);
         }
         
         console.log('💾 Saved to localStorage');
         
-        // Navigate based on role from database
+        
         console.log(`🚀 Navigating to ${userRole} dashboard...`);
         
         if (userRole === 'admin') {
@@ -100,7 +100,7 @@ const LoginPage = () => {
         } else if (userRole === 'renter') {
           navigate('/rental');
           
-          // Refetch user data after navigation
+          
           setTimeout(() => {
             console.log('🔄 Triggering data refetch for renter...');
             refetchUserData();

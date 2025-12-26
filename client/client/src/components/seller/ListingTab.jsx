@@ -7,7 +7,7 @@ const ListingTab = ({ listings, searchQuery, onToggleStatus, showToast }) => {
   console.log('🔍 ListingTab received listings:', listings);
   console.log('📊 Listings count:', listings?.length || 0);
   
-  // ✅ FIXED: Only show 'active' status listings (remove paused ones)
+  
   const activeListings = listings.filter(l => l.status === 'active');
   
   console.log('✅ Active listings after filter:', activeListings.length);
@@ -34,7 +34,7 @@ const ListingTab = ({ listings, searchQuery, onToggleStatus, showToast }) => {
           response.data.message,
           'success'
         );
-        onToggleStatus(); // This will refresh and hide paused listing
+        onToggleStatus(); 
       }
     } catch (error) {
       console.error('❌ Toggle status error:', error);
@@ -48,7 +48,7 @@ const ListingTab = ({ listings, searchQuery, onToggleStatus, showToast }) => {
   };
 
   const handleShare = (listingId) => {
-    const url = `https://renteasy.com/listing/${listingId}`;
+    const url = `https:
     navigator.clipboard.writeText(url);
     showToast('Copied!', 'Link copied to clipboard', 'success');
   };

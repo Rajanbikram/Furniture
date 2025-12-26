@@ -20,7 +20,7 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
 
   const handleLoginClick = () => {
     if (onLoginClick) {
-      onLoginClick(); // Call the login function
+      onLoginClick(); 
     } else {
       showToast('Login Required', 'Login functionality coming soon!');
     }
@@ -28,7 +28,7 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
 
   const handleRegisterClick = () => {
     if (onRegisterClick) {
-      onRegisterClick(); // Call the register function
+      onRegisterClick(); 
     } else {
       showToast('Register', 'Registration functionality coming soon!');
     }
@@ -40,7 +40,7 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
 
   return (
     <header className="header-fixed">
-      {/* Guest Banner */}
+      {}
       <div className="guest-banner">
         🎉 Guest Mode - 
         <button 
@@ -51,10 +51,10 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
         </button>
       </div>
 
-      {/* Main Header */}
+      {}
       <div className="header-main-container">
         <div className="header-content">
-          {/* Logo */}
+          {}
           <div className="logo-section">
             <div className="logo-icon">🏠</div>
             <div className="logo-text">
@@ -63,7 +63,7 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
             </div>
           </div>
 
-          {/* Search Bar */}
+          {}
           <div className="search-wrapper">
             <span className="search-icon-span">🔍</span>
             <input
@@ -77,7 +77,7 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
               autoComplete="off"
             />
 
-            {/* Suggestions Dropdown */}
+            {}
             {showSuggestions && filteredSuggestions.length > 0 && (
               <div className="suggestions-dropdown">
                 {filteredSuggestions.map((product) => (
@@ -94,7 +94,7 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
             )}
           </div>
 
-          {/* Auth Buttons */}
+          {}
           <div className="auth-buttons-group">
             <button 
               onClick={handleLoginClick}

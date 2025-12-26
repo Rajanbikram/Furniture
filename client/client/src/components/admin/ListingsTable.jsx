@@ -1,10 +1,10 @@
 import React from 'react';
 
 function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
-  // Filter listings based on status
+  
   const filteredListings = listings.filter(l => filter === 'all' || l.status === filter);
 
-  // Format date helper
+  
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -15,7 +15,7 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
     });
   };
 
-  // Get status badge class
+  
   const getStatusBadgeClass = (status) => {
     switch(status) {
       case 'approved':
@@ -84,7 +84,7 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
                   </td>
                   <td style={{ textAlign: 'right' }}>
                     <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'flex-end' }}>
-                      {/* View Button */}
+                      {}
                       <button 
                         className="btn btn-ghost btn-icon" 
                         title="View Details"
@@ -99,7 +99,7 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
                         </svg>
                       </button>
 
-                      {/* Approve Button - Only for pending listings */}
+                      {}
                       {listing.status === 'pending' && (
                         <button 
                           className="btn btn-ghost btn-icon text-success" 
@@ -112,7 +112,7 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
                         </button>
                       )}
 
-                      {/* Reject Button - Only for pending listings */}
+                      {}
                       {listing.status === 'pending' && (
                         <button 
                           className="btn btn-ghost btn-icon text-destructive" 
@@ -126,7 +126,7 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
                         </button>
                       )}
 
-                      {/* Delete Button - Available for all listings */}
+                      {}
                       <button 
                         className="btn btn-ghost btn-icon text-destructive" 
                         title="Delete Listing" 
@@ -149,7 +149,7 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
         </table>
       </div>
       
-      {/* Table Footer with Summary */}
+      {}
       {filteredListings.length > 0 && (
         <div style={{ 
           padding: '1rem', 

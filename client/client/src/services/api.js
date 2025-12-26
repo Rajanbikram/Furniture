@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http:
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -9,7 +9,7 @@ const api = axios.create({
   }
 });
 
-// Request interceptor to add token
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -23,7 +23,7 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor for error handling
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -35,23 +35,23 @@ api.interceptors.response.use(
   }
 );
 
-// Auth API
+
 export const authAPI = {
-  // ✅ Seller Auth
+  
   registerSeller: (userData) => api.post('/auth/seller/register', userData),
   loginSeller: (credentials) => api.post('/auth/seller/login', credentials),
   
-  // ✅ User/Renter/Admin Auth
+  
   register: (userData) => api.post('/auth/register', userData),
   login: (credentials) => api.post('/auth/login', credentials),
   
-  // Common
+  
   logout: () => api.post('/auth/logout'),
   getCurrentUser: () => api.get('/auth/me'),
   updateProfile: (data) => api.put('/auth/profile', data)
 };
 
-// Seller API
+
 export const sellerAPI = {
   getDashboard: () => api.get('/seller/dashboard'),
   getProfile: () => api.get('/seller/profile'),
@@ -65,34 +65,34 @@ export const sellerAPI = {
   getEarnings: () => api.get('/seller/earnings')
 };
 
-// Rental API
+
 export const rentalAPI = {
-  // Rental Products
+  
   getProducts: (params) => api.get('/rental/products', { params }),
   getProductById: (id) => api.get(`/rental/products/${id}`),
   createProduct: (data) => api.post('/rental/products', data),
   updateProduct: (id, data) => api.put(`/rental/products/${id}`, data),
   deleteProduct: (id) => api.delete(`/rental/products/${id}`),
   
-  // Rental Cart
+  
   getCart: () => api.get('/rental/cart'),
   addToCart: (data) => api.post('/rental/cart', data),
   updateCartItem: (id, data) => api.put(`/rental/cart/${id}`, data),
   removeFromCart: (id) => api.delete(`/rental/cart/${id}`),
   clearCart: () => api.delete('/rental/cart'),
   
-  // Rental Favorites
+  
   getFavorites: () => api.get('/rental/favorites'),
   toggleFavorite: (productId) => api.post('/rental/favorites/toggle', { productId }),
   
-  // Rental Orders/Bookings
+  
   getRentals: () => api.get('/rental/rentals'),
   createRental: (data) => api.post('/rental/rentals', data),
   updateRentalStatus: (id, status) => api.put(`/rental/rentals/${id}/status`, { status }),
   renewRental: (id) => api.put(`/rental/rentals/${id}/renew`)
 };
 
-// Product API
+
 export const productAPI = {
   getAll: () => api.get('/products'),
   getById: (id) => api.get(`/products/${id}`),
@@ -104,7 +104,7 @@ export const productAPI = {
   getByLocation: (location) => api.get(`/products/location/${location}`)
 };
 
-// Deal API
+
 export const dealAPI = {
   getAll: () => api.get('/deals'),
   getById: (id) => api.get(`/deals/${id}`),
@@ -114,7 +114,7 @@ export const dealAPI = {
   getActive: () => api.get('/deals/active')
 };
 
-// Cart API
+
 export const cartAPI = {
   getCart: () => api.get('/cart'),
   addItem: (productId, quantity) => api.post('/cart/items', { productId, quantity }),
@@ -123,7 +123,7 @@ export const cartAPI = {
   clearCart: () => api.delete('/cart')
 };
 
-// Order API
+
 export const orderAPI = {
   create: (orderData) => api.post('/orders', orderData),
   getAll: () => api.get('/orders'),
@@ -132,7 +132,7 @@ export const orderAPI = {
   cancel: (id) => api.delete(`/orders/${id}`)
 };
 
-// Wishlist API
+
 export const wishlistAPI = {
   getAll: () => api.get('/wishlist'),
   add: (productId) => api.post('/wishlist', { productId }),

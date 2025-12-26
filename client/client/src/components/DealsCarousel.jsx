@@ -4,7 +4,7 @@ import '../styles/components.css';
 const DealsCarousel = ({ deals, showToast, onLoginClick }) => {
   const handleViewDeal = () => {
     if (onLoginClick) {
-      onLoginClick(); // Show login page
+      onLoginClick(); 
     } else {
       showToast('Login Required', 'Please login to view exclusive deals');
     }

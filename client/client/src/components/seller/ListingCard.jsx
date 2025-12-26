@@ -7,7 +7,7 @@ const ListingCard = ({ listing, onToggleStatus, onEdit, onShare }) => {
   const formatNPR = (amount) => `NPR ${amount.toLocaleString('en-NP')}`;
   const formatViews = (count) => count >= 1000 ? `${(count / 1000).toFixed(1)}K` : count.toString();
 
-  // ✅ FIXED: Convert tenureOptions object to array
+  
   const getActiveTenures = () => {
     if (!listing.tenureOptions) return [];
     
@@ -26,7 +26,7 @@ const ListingCard = ({ listing, onToggleStatus, onEdit, onShare }) => {
       }));
   };
 
-  // ✅ FIXED: Get pricing for a tenure
+  
   const getTenurePrice = (tenureKey) => {
     if (!listing.tenurePricing) return listing.pricePerMonth;
     return listing.tenurePricing[tenureKey] || listing.pricePerMonth;
@@ -46,10 +46,10 @@ const ListingCard = ({ listing, onToggleStatus, onEdit, onShare }) => {
     );
   };
 
-  // ✅ FIXED: Safe array checks
+  
   const images = Array.isArray(listing.images) && listing.images.length > 0 
     ? listing.images 
-    : ['https://via.placeholder.com/300x200?text=No+Image'];
+    : ['https:
 
   const tags = Array.isArray(listing.tags) ? listing.tags : [];
   const deliveryZones = Array.isArray(listing.deliveryZones) ? listing.deliveryZones : [];
@@ -94,7 +94,7 @@ const ListingCard = ({ listing, onToggleStatus, onEdit, onShare }) => {
           <span>/mo</span>
         </div>
 
-        {/* ✅ FIXED: Properly render tenure options */}
+        {}
         {activeTenures.length > 0 && (
           <div className="tenure-badges">
             {activeTenures.map(tenure => (
@@ -105,7 +105,7 @@ const ListingCard = ({ listing, onToggleStatus, onEdit, onShare }) => {
           </div>
         )}
 
-        {/* ✅ FIXED: Safe tag rendering */}
+        {}
         {tags.length > 0 && (
           <div className="tag-badges">
             {tags.map((tag, index) => (
@@ -114,7 +114,7 @@ const ListingCard = ({ listing, onToggleStatus, onEdit, onShare }) => {
           </div>
         )}
 
-        {/* ✅ FIXED: Safe delivery zones */}
+        {}
         {deliveryZones.length > 0 && (
           <div style={{ fontSize: '.75rem', color: 'var(--muted-fg)', marginTop: '.75rem' }}>
             📍 {deliveryZones.join(', ')}

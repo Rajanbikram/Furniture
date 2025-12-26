@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import api from '../../services/api';  // ✅ Use the configured api instance
+import api from '../../services/api';  
 
 const ProfileTab = ({ seller, onUpdate, showToast }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -34,7 +34,7 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
     try {
       console.log('💾 Saving profile...', formData);
       
-      // ✅ FIXED: Use api instance instead of axios
+      
       const response = await api.put('/seller/profile', formData);
 
       console.log('✅ Profile update response:', response.data);
@@ -149,7 +149,7 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
           <div className="profile-avatar">
             <div className="avatar">
               <img 
-                src={seller.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(seller.name || 'User')} 
+                src={seller.avatar || 'https:
                 alt={seller.name || 'User'} 
               />
             </div>

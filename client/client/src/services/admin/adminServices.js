@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http:
 
-// ========== AXIOS INSTANCE ==========
+
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -10,7 +10,7 @@ const api = axios.create({
   },
 });
 
-// Request interceptor to add JWT token
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('admin_token');
@@ -22,7 +22,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ========== AUTH SERVICES ==========
+
 export const authService = {
   login: (credentials) => api.post('/auth/admin/login', credentials),
   logout: () => {
@@ -32,7 +32,7 @@ export const authService = {
   verifyToken: () => api.get('/auth/verify'),
 };
 
-// ========== USER SERVICES ==========
+
 export const userService = {
   getAllUsers: () => api.get('/admin/users'),
   getUserById: (id) => api.get(`/admin/users/${id}`),
@@ -44,7 +44,7 @@ export const userService = {
   searchUsers: (query) => api.get(`/admin/users/search?q=${query}`),
 };
 
-// ========== LISTING SERVICES ==========
+
 export const listingService = {
   getAllListings: () => api.get('/admin/listings'),
   getListingById: (id) => api.get(`/admin/listings/${id}`),
@@ -54,7 +54,7 @@ export const listingService = {
   filterListings: (status) => api.get(`/admin/listings?status=${status}`),
 };
 
-// ========== ORDER SERVICES ==========
+
 export const orderService = {
   getAllOrders: () => api.get('/admin/orders'),
   getOrderById: (id) => api.get(`/admin/orders/${id}`),
@@ -62,18 +62,18 @@ export const orderService = {
   filterOrders: (status) => api.get(`/admin/orders?status=${status}`),
 };
 
-// ========== PAYMENT SERVICES ==========
+
 export const paymentService = {
   getAllPayments: () => api.get('/admin/payments'),
   getPaymentById: (id) => api.get(`/admin/payments/${id}`),
   calculateVAT: (amount) => {
-    const vatRate = 0.13; // Nepal VAT 13%
+    const vatRate = 0.13; 
     const vat = Math.round(amount * vatRate);
     return { base: amount, vat, total: amount + vat };
   },
 };
 
-// ========== VERIFICATION SERVICES ==========
+
 export const verificationService = {
   getAllVerifications: () => api.get('/admin/verifications'),
   getVerificationById: (id) => api.get(`/admin/verifications/${id}`),
@@ -81,7 +81,7 @@ export const verificationService = {
   rejectVerification: (id, reason) => api.patch(`/admin/verifications/${id}/reject`, { reason }),
 };
 
-// ========== PROMO SERVICES ==========
+
 export const promoService = {
   getAllPromos: () => api.get('/admin/promos'),
   createPromo: (data) => api.post('/admin/promos', data),
@@ -90,7 +90,7 @@ export const promoService = {
   deletePromo: (id) => api.delete(`/admin/promos/${id}`),
 };
 
-// ========== ANALYTICS SERVICES ==========
+
 export const analyticsService = {
   getDashboardStats: () => api.get('/admin/analytics/dashboard'),
   getUserGrowth: () => api.get('/admin/analytics/user-growth'),

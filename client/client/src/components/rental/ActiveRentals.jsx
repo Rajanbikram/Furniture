@@ -36,7 +36,7 @@ const ActiveRentals = ({ showToast }) => {
     return (
       <section className="section">
         <h2 className="section-title">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg xmlns="http:
             <path d="m7.5 4.27 9 5.15"/>
             <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
             <path d="m3.3 7 8.7 5 8.7-5"/>
@@ -45,7 +45,7 @@ const ActiveRentals = ({ showToast }) => {
           Your Active Rentals
         </h2>
         <div className="card" style={{padding: '3rem', textAlign: 'center'}}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{margin: '0 auto 1rem', color: 'var(--muted-foreground)'}}>
+          <svg xmlns="http:
             <path d="m7.5 4.27 9 5.15"/>
             <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
             <path d="m3.3 7 8.7 5 8.7-5"/>
@@ -61,7 +61,7 @@ const ActiveRentals = ({ showToast }) => {
   return (
     <section className="section">
       <h2 className="section-title">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http:
           <path d="m7.5 4.27 9 5.15"/>
           <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
           <path d="m3.3 7 8.7 5 8.7-5"/>
@@ -73,7 +73,7 @@ const ActiveRentals = ({ showToast }) => {
         const days = getDaysRemaining(rental.endDate);
         const currentIdx = steps.indexOf(rental.status);
         
-        // ✅ Safe access with fallbacks
+        
         const product = rental.product || {};
         const productImage = product.images?.[0] || '/placeholder-product.jpg';
         const productName = product.title || 'Product';
@@ -99,7 +99,7 @@ const ActiveRentals = ({ showToast }) => {
                     <div key={step} className="timeline-step">
                       <div className={`timeline-dot ${idx <= currentIdx ? 'completed' : ''} ${idx === currentIdx ? 'current' : ''}`}>
                         {idx <= currentIdx ? (
-                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <svg xmlns="http:
                             <polyline points="20 6 9 17 4 12"/>
                           </svg>
                         ) : idx + 1}
@@ -112,7 +112,7 @@ const ActiveRentals = ({ showToast }) => {
                 </div>
                 <div className="rental-meta">
                   <div className="rental-meta-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg xmlns="http:
                       <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
                       <line x1="16" x2="16" y1="2" y2="6"/>
                       <line x1="8" x2="8" y1="2" y2="6"/>
@@ -121,7 +121,7 @@ const ActiveRentals = ({ showToast }) => {
                     {formatDate(rental.startDate).replace(/,.*/, '')} - {formatDate(rental.endDate)}
                   </div>
                   <div className={`rental-meta-item ${days <= 7 ? 'warning' : ''}`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg xmlns="http:
                       <circle cx="12" cy="12" r="10"/>
                       <polyline points="12 6 12 12 16 14"/>
                     </svg>
@@ -132,7 +132,7 @@ const ActiveRentals = ({ showToast }) => {
               </div>
               <div className="rental-actions">
                 <button className="btn btn-primary btn-sm" onClick={() => handleRenew(rental.id)} disabled={rental.status === 'returned'}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg xmlns="http:
                     <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
                     <path d="M3 3v5h5"/>
                     <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>

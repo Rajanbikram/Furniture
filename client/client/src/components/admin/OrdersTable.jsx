@@ -3,7 +3,7 @@ import React from 'react';
 function OrdersTable({ orders, onStatusChange, filter }) {
   const filteredOrders = orders.filter(o => filter === 'all' || o.status === filter);
 
-  // Format date helper
+  
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -14,7 +14,7 @@ function OrdersTable({ orders, onStatusChange, filter }) {
     });
   };
 
-  // Get status badge class
+  
   const getStatusBadgeClass = (status) => {
     switch(status) {
       case 'completed':
@@ -92,7 +92,7 @@ function OrdersTable({ orders, onStatusChange, filter }) {
                   </td>
                   <td style={{ textAlign: 'right' }}>
                     <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'flex-end' }}>
-                      {/* View Button */}
+                      {}
                       <button 
                         className="btn btn-ghost btn-icon" 
                         title="View Details"
@@ -106,7 +106,7 @@ function OrdersTable({ orders, onStatusChange, filter }) {
                         </svg>
                       </button>
 
-                      {/* Status Change Buttons */}
+                      {}
                       {order.status === 'pending' && (
                         <button 
                           className="btn btn-ghost btn-icon text-success" 
@@ -153,7 +153,7 @@ function OrdersTable({ orders, onStatusChange, filter }) {
         </table>
       </div>
 
-      {/* Table Footer with Summary */}
+      {}
       {filteredOrders.length > 0 && (
         <div style={{ 
           padding: '1rem', 

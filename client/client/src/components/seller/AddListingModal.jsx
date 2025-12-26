@@ -230,7 +230,7 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
     }}>
       <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
         <div style={{ padding: '24px' }}>
-          {/* Header */}
+          {}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#1e293b', margin: 0 }}>
               Add New Listing
@@ -250,7 +250,7 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
             </button>
           </div>
 
-          {/* Progress Steps */}
+          {}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -304,7 +304,7 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
 
-          {/* Step 1: Basic Info */}
+          {}
           {currentStep === 1 && (
             <div>
               <div style={{ marginBottom: '20px' }}>
@@ -427,7 +427,7 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
             </div>
           )}
 
-          {/* Step 2: Pricing */}
+          {}
           {currentStep === 2 && (
             <div>
               <div style={{ marginBottom: '20px' }}>
@@ -527,7 +527,7 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
             </div>
           )}
 
-          {/* Step 3: Images */}
+          {}
           {currentStep === 3 && (
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#1e293b', marginBottom: '12px' }}>
@@ -634,7 +634,7 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
             </div>
           )}
 
-          {/* Step 4: Review */}
+          {}
           {currentStep === 4 && (
             <div>
               <h3 style={{ fontWeight: '600', margin: '0 0 16px 0' }}>Review Your Listing</h3>
@@ -694,7 +694,7 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
             </div>
           )}
 
-          {/* Navigation Buttons */}
+          {}
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',

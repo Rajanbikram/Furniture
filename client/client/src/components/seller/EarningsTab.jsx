@@ -8,7 +8,7 @@ const EarningsTab = ({ earnings }) => {
   const revenueChartInstance = useRef(null);
   const earningsChartInstance = useRef(null);
 
-  // ✅ Calculate earnings from rental data
+  
   const calculatedEarnings = useMemo(() => {
     if (!earnings || earnings.length === 0) {
       return {
@@ -19,15 +19,15 @@ const EarningsTab = ({ earnings }) => {
       };
     }
 
-    // Calculate total earnings
+    
     const totalEarnings = earnings.reduce((sum, rental) => {
       return sum + (rental.totalAmount || 0);
     }, 0);
 
-    // Calculate VAT (13%)
+    
     const vatPaid = Math.round(totalEarnings * 0.13);
 
-    // Group by month for monthly breakdown
+    
     const monthlyMap = {};
     earnings.forEach(rental => {
       const date = new Date(rental.createdAt);
@@ -44,7 +44,7 @@ const EarningsTab = ({ earnings }) => {
       amount
     }));
 
-    // Group by product for top listings
+    
     const productMap = {};
     earnings.forEach(rental => {
       const productTitle = rental.product?.title || 'Unknown Product';
@@ -61,7 +61,7 @@ const EarningsTab = ({ earnings }) => {
         totalEarnings
       }))
       .sort((a, b) => b.totalEarnings - a.totalEarnings)
-      .slice(0, 4); // Top 4 products
+      .slice(0, 4); 
 
     return {
       totalEarnings,
@@ -156,7 +156,7 @@ const EarningsTab = ({ earnings }) => {
     ? calculatedEarnings.monthlyBreakdown[calculatedEarnings.monthlyBreakdown.length - 1].amount 
     : 0;
 
-  // ✅ Empty state
+  
   if (!earnings || earnings.length === 0) {
     return (
       <div>

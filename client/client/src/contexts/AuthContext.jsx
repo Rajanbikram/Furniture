@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await authAPI.login(credentials);
       if (response.data.success) {
-        // FIXED: Backend returns { success, token, data }
+        
         const { token, data } = response.data;
         localStorage.setItem('token', token);
         localStorage.setItem('userRole', data.role);

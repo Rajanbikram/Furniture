@@ -20,35 +20,35 @@ function AdminPages() {
   const { showToast } = useToast();
   const [activePage, setActivePage] = useState('dashboard');
   
-  // ✅ Real dashboard data from API
+  
   const [dashboardData, setDashboardData] = useState(null);
   const [dashboardLoading, setDashboardLoading] = useState(true);
   
-  // ✅ Real users data
+  
   const [usersData, setUsersData] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const [usersStats, setUsersStats] = useState(null);
   
-  // ✅ Real listings data
+  
   const [listingsData, setListingsData] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(false);
   const [listingsStats, setListingsStats] = useState(null);
   
-  // ✅ Real orders data
+  
   const [ordersData, setOrdersData] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [ordersStats, setOrdersStats] = useState(null);
   
-  // ✅ Real payments data
+  
   const [paymentsData, setPaymentsData] = useState([]);
   const [paymentsLoading, setPaymentsLoading] = useState(false);
   const [paymentsStats, setPaymentsStats] = useState(null);
   
-  // States for other pages
+  
   const [verifications, setVerifications] = useState([]);
   const [promos, setPromos] = useState([]);
   
-  // Filter states
+  
   const [userSearch, setUserSearch] = useState('');
   const [userTypeFilter, setUserTypeFilter] = useState('all');
   const [listingFilter, setListingFilter] = useState('all');
@@ -68,7 +68,7 @@ function AdminPages() {
     analytics: { title: 'Analytics', subtitle: 'Platform insights' },
   };
 
-  // ✅ Fetch data when page changes
+  
   useEffect(() => {
     if (activePage === 'dashboard') {
       fetchDashboardData();
@@ -84,35 +84,35 @@ function AdminPages() {
     }
   }, [activePage]);
 
-  // ✅ Re-fetch users when filters change
+  
   useEffect(() => {
     if (activePage === 'users') {
       fetchUsersData();
     }
   }, [userSearch, userTypeFilter]);
 
-  // ✅ Re-fetch listings when filter changes
+  
   useEffect(() => {
     if (activePage === 'listings') {
       fetchListingsData();
     }
   }, [listingFilter]);
 
-  // ✅ Re-fetch orders when filter changes
+  
   useEffect(() => {
     if (activePage === 'orders') {
       fetchOrdersData();
     }
   }, [orderFilter]);
 
-  // ✅ Re-fetch payments when filter changes
+  
   useEffect(() => {
     if (activePage === 'payments') {
       fetchPaymentsData();
     }
   }, [paymentFilter]);
 
-  // ✅ Fetch real dashboard data from API
+  
   const fetchDashboardData = async () => {
     try {
       setDashboardLoading(true);
@@ -120,7 +120,7 @@ function AdminPages() {
       
       console.log('🔄 Fetching admin dashboard data...');
       
-      const response = await axios.get('http://localhost:5000/api/admin/dashboard', {
+      const response = await axios.get('http:
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -138,7 +138,7 @@ function AdminPages() {
     }
   };
 
-  // ✅ Fetch users and sellers data
+  
   const fetchUsersData = async () => {
     try {
       setUsersLoading(true);
@@ -150,7 +150,7 @@ function AdminPages() {
       if (userSearch) params.append('search', userSearch);
       if (userTypeFilter !== 'all') params.append('type', userTypeFilter);
       
-      const response = await axios.get(`http://localhost:5000/api/admin/users/all?${params.toString()}`, {
+      const response = await axios.get(`http:
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -169,7 +169,7 @@ function AdminPages() {
     }
   };
 
-  // ✅ Fetch listings data
+  
   const fetchListingsData = async () => {
     try {
       setListingsLoading(true);
@@ -180,7 +180,7 @@ function AdminPages() {
       const params = new URLSearchParams();
       if (listingFilter !== 'all') params.append('status', listingFilter);
       
-      const response = await axios.get(`http://localhost:5000/api/admin/listings?${params.toString()}`, {
+      const response = await axios.get(`http:
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -211,7 +211,7 @@ function AdminPages() {
     }
   };
 
-  // ✅ Fetch orders data
+  
   const fetchOrdersData = async () => {
     try {
       setOrdersLoading(true);
@@ -222,7 +222,7 @@ function AdminPages() {
       const params = new URLSearchParams();
       if (orderFilter !== 'all') params.append('status', orderFilter);
       
-      const response = await axios.get(`http://localhost:5000/api/admin/orders?${params.toString()}`, {
+      const response = await axios.get(`http:
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -254,7 +254,7 @@ function AdminPages() {
     }
   };
 
-  // ✅ Fetch payments data
+  
   const fetchPaymentsData = async () => {
     try {
       setPaymentsLoading(true);
@@ -265,7 +265,7 @@ function AdminPages() {
       const params = new URLSearchParams();
       if (paymentFilter !== 'all') params.append('status', paymentFilter);
       
-      const response = await axios.get(`http://localhost:5000/api/admin/payments?${params.toString()}`, {
+      const response = await axios.get(`http:
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -286,12 +286,12 @@ function AdminPages() {
     }
   };
 
-  // ✅ Fetch payment statistics
+  
   const fetchPaymentStats = async () => {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await axios.get('http://localhost:5000/api/admin/payments/stats', {
+      const response = await axios.get('http:
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -307,12 +307,12 @@ function AdminPages() {
     }
   };
 
-  // ✅ User Actions
+  
   const handleBanUser = async (user) => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:5000/api/admin/users/${user.id}/toggle-status`,
+        `http:
         { type: user.type },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -339,7 +339,7 @@ function AdminPages() {
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
-        `http://localhost:5000/api/admin/users/${user.id}`,
+        `http:
         {
           data: { type: user.type },
           headers: { Authorization: `Bearer ${token}` }
@@ -365,7 +365,7 @@ function AdminPages() {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:5000/api/admin/users/${user.id}/role`,
+        `http:
         { role: newRole },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -380,12 +380,12 @@ function AdminPages() {
     }
   };
   
-  // ✅ Listing Actions
+  
   const handleApproveListing = async (listing) => {
     try {
       const token = localStorage.getItem('token');
       await axios.patch(
-        `http://localhost:5000/api/admin/listings/${listing.id}/approve`,
+        `http:
         {},
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -404,7 +404,7 @@ function AdminPages() {
     try {
       const token = localStorage.getItem('token');
       await axios.patch(
-        `http://localhost:5000/api/admin/listings/${listing.id}/reject`,
+        `http:
         {},
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -427,7 +427,7 @@ function AdminPages() {
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
-        `http://localhost:5000/api/admin/listings/${listing.id}`,
+        `http:
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -441,7 +441,7 @@ function AdminPages() {
     }
   };
 
-  // ✅ Order Actions
+  
   const handleOrderStatusChange = async (order, newStatus) => {
     if (!window.confirm(`Change order status to "${newStatus}"?`)) {
       return;
@@ -450,7 +450,7 @@ function AdminPages() {
     try {
       const token = localStorage.getItem('token');
       await axios.patch(
-        `http://localhost:5000/api/admin/orders/${order.id}/status`,
+        `http:
         { status: newStatus },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -465,7 +465,7 @@ function AdminPages() {
     }
   };
 
-  // ✅ Payment Actions
+  
   const handlePaymentStatusChange = async (payment, newStatus) => {
     if (!window.confirm(`Change payment status to "${newStatus}"?`)) {
       return;
@@ -474,7 +474,7 @@ function AdminPages() {
     try {
       const token = localStorage.getItem('token');
       await axios.patch(
-        `http://localhost:5000/api/admin/payments/${payment.id}/status`,
+        `http:
         { status: newStatus },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -524,7 +524,7 @@ function AdminPages() {
     showToast('Promo Created', `Promo code ${formData.code} has been created`);
   };
 
-  // Charts config
+  
   const userGrowthChart = {
     type: 'line',
     data: {
@@ -574,7 +574,7 @@ function AdminPages() {
         <Header title={pageHeaders[activePage].title} subtitle={pageHeaders[activePage].subtitle} />
         <div className="page-content">
 
-          {/* ✅ DASHBOARD */}
+          {}
           {activePage === 'dashboard' && (
             <section className="page-section active">
               {dashboardLoading ? (
@@ -616,7 +616,7 @@ function AdminPages() {
             </section>
           )}
 
-          {/* ✅ USERS PAGE */}
+          {}
           {activePage === 'users' && (
             <section className="page-section active">
               <div className="section-header">
@@ -649,7 +649,7 @@ function AdminPages() {
             </section>
           )}
 
-          {/* ✅ LISTINGS PAGE */}
+          {}
           {activePage === 'listings' && (
             <section className="page-section active">
               <div className="section-header">
@@ -694,7 +694,7 @@ function AdminPages() {
             </section>
           )}
 
-          {/* ✅ ORDERS PAGE - REAL DATA */}
+          {}
           {activePage === 'orders' && (
             <section className="page-section active">
               <div className="section-header">
@@ -737,7 +737,7 @@ function AdminPages() {
             </section>
           )}
 
-          {/* ✅ PAYMENTS PAGE - REAL DATA */}
+          {}
           {activePage === 'payments' && (
             <section className="page-section active">
               <div className="section-header">
@@ -785,7 +785,7 @@ function AdminPages() {
             </section>
           )}
 
-          {/* VERIFICATION PAGE */}
+          {}
           {activePage === 'verification' && (
             <section className="page-section active">
               <div className="section-header">
@@ -798,7 +798,7 @@ function AdminPages() {
             </section>
           )}
 
-          {/* PROMOTIONS PAGE */}
+          {}
           {activePage === 'promotions' && (
             <section className="page-section active">
               <div className="section-header">
@@ -811,7 +811,7 @@ function AdminPages() {
             </section>
           )}
 
-          {/* ANALYTICS PAGE */}
+          {}
           {activePage === 'analytics' && (
             <section className="page-section active">
               <div className="section-header">
@@ -827,7 +827,7 @@ function AdminPages() {
         </div>
       </main>
 
-      {/* MODALS */}
+      {}
       <VatCalculator isOpen={vatModalOpen} onClose={() => setVatModalOpen(false)} />
       <PromoModal isOpen={promoModalOpen} onClose={() => setPromoModalOpen(false)} onSubmit={handleCreatePromo} />
     </div>

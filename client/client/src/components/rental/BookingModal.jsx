@@ -13,11 +13,11 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
   });
 
   const stepIcons = {
-    1: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>',
-    2: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>',
-    3: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
-    4: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>',
-    5: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+    1: '<svg xmlns="http:
+    2: '<svg xmlns="http:
+    3: '<svg xmlns="http:
+    4: '<svg xmlns="http:
+    5: '<svg xmlns="http:
   };
 
   const handleNext = () => {
@@ -73,7 +73,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
         <div className="modal-header">
           <h2>Book Your Rental</h2>
           <button className="modal-close" onClick={onClose}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http:
               <path d="M18 6 6 18"/>
               <path d="m6 6 12 12"/>
             </svg>
@@ -81,7 +81,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
         </div>
 
         <div className="modal-body">
-          {/* Steps */}
+          {}
           <div className="booking-steps">
             {[1,2,3,4,5].map((s, idx) => (
               <div key={s} className="booking-step">
@@ -92,7 +92,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
           </div>
 
           <div className="booking-content">
-            {/* Step 1: Product Summary */}
+            {}
             {step === 1 && (
               <>
                 <h3 style={{fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem'}}>Selected Product</h3>
@@ -109,7 +109,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
               </>
             )}
 
-            {/* Step 2: Tenure Selection */}
+            {}
             {step === 2 && (
               <>
                 <h3 style={{fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem'}}>Select Rental Duration</h3>
@@ -125,7 +125,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
                 </div>
                 <div className="student-discount" style={{marginTop: '1.5rem'}}>
                   <div className="student-discount-header">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg xmlns="http:
                       <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
                       <path d="M6 12v5c3 3 9 3 12 0v-5"/>
                     </svg>
@@ -133,7 +133,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
                   </div>
                   {bookingData.studentDiscount ? (
                     <div className="promo-success">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg xmlns="http:
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                         <polyline points="22 4 12 14.01 9 11.01"/>
                       </svg>
@@ -141,7 +141,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
                     </div>
                   ) : (
                     <button className="btn btn-outline btn-sm" style={{width: '100%'}} onClick={() => setBookingData({...bookingData, studentDiscount: true})}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg xmlns="http:
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                         <polyline points="17 8 12 3 7 8"/>
                         <line x1="12" x2="12" y1="3" y2="15"/>
@@ -153,7 +153,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
               </>
             )}
 
-            {/* Step 3: Address */}
+            {}
             {step === 3 && (
               <>
                 <h3 style={{fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem'}}>Delivery Address</h3>
@@ -190,7 +190,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
               </>
             )}
 
-            {/* Step 4: Payment */}
+            {}
             {step === 4 && (
               <>
                 <h3 style={{fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem'}}>Payment Method</h3>
@@ -212,7 +212,7 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
               </>
             )}
 
-            {/* Step 5: Confirmation */}
+            {}
             {step === 5 && (
               <>
                 <h3 style={{fontSize: '1.125rem', fontWeight: 600, marginBottom: '1rem'}}>Confirm Your Order</h3>
@@ -277,4 +277,4 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
   );
 };
 
-export default BookingModal;"// Jan 1: Booking modal tweak" 
+export default BookingModal;"
