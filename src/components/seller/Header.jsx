@@ -60,3 +60,4 @@ const Header = ({ seller = {}, onSearch, onLogout, notificationCount = 0 }) => {
 };
 
 export default Header;"// Friend's Jan 1 note" 
+"// Friend's note" 
