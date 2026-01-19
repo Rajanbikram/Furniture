@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/database');
-
 const Rental = sequelize.define('Rental', {
   id: { 
     type: DataTypes.UUID, 
@@ -64,5 +63,4 @@ const Rental = sequelize.define('Rental', {
   underscored: true,
   timestamps: true
 });
-
 module.exports = Rental;

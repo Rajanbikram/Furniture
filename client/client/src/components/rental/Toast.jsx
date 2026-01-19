@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-
 const Toast = ({ title, message, type = 'success', onClose }) => {
   useEffect(() => {
     const timer = setTimeout(onClose, 3000);
     return () => clearTimeout(timer);
   }, [onClose]);
-
   return (
     <div className={`toast ${type}`}>
       <div className="toast-title">{title}</div>
@@ -13,7 +11,6 @@ const Toast = ({ title, message, type = 'success', onClose }) => {
     </div>
   );
 };
-
 export const ToastContainer = ({ toasts, removeToast }) => (
   <div className="toast-container">
     {toasts.map((toast) => (
@@ -21,5 +18,4 @@ export const ToastContainer = ({ toasts, removeToast }) => (
     ))}
   </div>
 );
-
 export default Toast;

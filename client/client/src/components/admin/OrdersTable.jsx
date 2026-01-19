@@ -1,9 +1,6 @@
 import React from 'react';
-
 function OrdersTable({ orders, onStatusChange, filter }) {
   const filteredOrders = orders.filter(o => filter === 'all' || o.status === filter);
-
-  
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -13,8 +10,6 @@ function OrdersTable({ orders, onStatusChange, filter }) {
       day: 'numeric' 
     });
   };
-
-  
   const getStatusBadgeClass = (status) => {
     switch(status) {
       case 'completed':
@@ -29,7 +24,6 @@ function OrdersTable({ orders, onStatusChange, filter }) {
         return 'badge-outline';
     }
   };
-
   return (
     <div className="card">
       <div className="table-container">
@@ -105,7 +99,6 @@ function OrdersTable({ orders, onStatusChange, filter }) {
                           <circle cx="12" cy="12" r="3"/>
                         </svg>
                       </button>
-
                       {}
                       {order.status === 'pending' && (
                         <button 
@@ -118,7 +111,6 @@ function OrdersTable({ orders, onStatusChange, filter }) {
                           </svg>
                         </button>
                       )}
-
                       {order.status === 'active' && (
                         <button 
                           className="btn btn-ghost btn-icon text-success" 
@@ -131,7 +123,6 @@ function OrdersTable({ orders, onStatusChange, filter }) {
                           </svg>
                         </button>
                       )}
-
                       {(order.status === 'pending' || order.status === 'active') && (
                         <button 
                           className="btn btn-ghost btn-icon text-destructive" 
@@ -152,7 +143,6 @@ function OrdersTable({ orders, onStatusChange, filter }) {
           </tbody>
         </table>
       </div>
-
       {}
       {filteredOrders.length > 0 && (
         <div style={{ 
@@ -176,5 +166,4 @@ function OrdersTable({ orders, onStatusChange, filter }) {
     </div>
   );
 }
-
 export default OrdersTable;

@@ -1,5 +1,4 @@
 import React from 'react';
-
 function ActivityCard({ title, items }) {
   return (
     <div className="card activity-card">
@@ -21,5 +20,4 @@ function ActivityCard({ title, items }) {
     </div>
   );
 }
-
 export default ActivityCard;

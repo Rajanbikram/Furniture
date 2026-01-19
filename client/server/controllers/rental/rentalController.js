@@ -2,17 +2,13 @@ const Rental = require('../../models/rental/Rental');
 const { Listing, Seller, User } = require('../../models');
 const RentalCart = require('../../models/rental/Cart');
 const { Payment } = require('../../models/admin'); // ✅ ADDED THIS LINE
-
-// Renter's rental history
 exports.getRentals = async (req, res) => {
   try {
     console.log('📋 Fetching rentals for user:', req.user.id);
-    
     const rentals = await Rental.findAll({ 
       where: { userId: req.user.id },
       order: [['createdAt', 'DESC']]
     });
-    
     const rentalsWithProducts = await Promise.all(
       rentals.map(async (rental) => {
         const product = await Listing.findByPk(rental.productId, {
@@ -24,16 +20,13 @@ exports.getRentals = async (req, res) => {
             }
           ]
         });
-        
         return {
           ...rental.toJSON(),
           product: product ? product.toJSON() : null
         };
       })
     );
-    
     console.log('✅ Rentals found:', rentalsWithProducts.length);
-    
     res.json({
       success: true,
       data: rentalsWithProducts
@@ -46,26 +39,20 @@ exports.getRentals = async (req, res) => {
     });
   }
 };
-
-// ✅ Seller's rental history
 exports.getSellerRentals = async (req, res) => {
   try {
     console.log('📋 Fetching seller rentals for seller:', req.user.id);
-    
     const rentals = await Rental.findAll({ 
       where: { sellerId: req.user.id },
       order: [['createdAt', 'DESC']]
     });
-    
     console.log('📦 Found', rentals.length, 'rentals for seller');
-    
     const rentalsWithDetails = await Promise.all(
       rentals.map(async (rental) => {
         const product = await Listing.findByPk(rental.productId);
         const renter = await User.findByPk(rental.userId, {
           attributes: ['id', 'fullName', 'email']
         });
-        
         return {
           ...rental.toJSON(),
           product: product ? product.toJSON() : null,
@@ -73,9 +60,7 @@ exports.getSellerRentals = async (req, res) => {
         };
       })
     );
-    
     console.log('✅ Seller rentals found:', rentalsWithDetails.length);
-    
     res.json({
       success: true,
       data: rentalsWithDetails
@@ -88,35 +73,26 @@ exports.getSellerRentals = async (req, res) => {
     });
   }
 };
-
-// ✅ UPDATED - Create rental with seller_id AND PAYMENT CREATION
 exports.createRental = async (req, res) => {
   try {
     const { productId, tenure, address, paymentMethod } = req.body;
     const userId = req.user.id;
-    
     console.log('📝 Creating rental:', { userId, productId, tenure, address, paymentMethod });
-    
     const listing = await Listing.findByPk(productId);
-    
     if (!listing) {
       return res.status(404).json({ 
         success: false,
         error: 'Product not found' 
       });
     }
-    
     if (listing.status !== 'active') {
       return res.status(400).json({ 
         success: false,
         message: 'This listing is not available for rent' 
       });
     }
-    
-    // ✅ Get seller_id from listing
     const sellerId = listing.sellerId;
     console.log('✅ Seller ID from listing:', sellerId);
-    
     if (!sellerId) {
       console.error('❌ Listing has no seller_id!');
       return res.status(500).json({
@@ -124,14 +100,10 @@ exports.createRental = async (req, res) => {
         error: 'Invalid listing - no seller associated'
       });
     }
-    
     const startDate = new Date();
     const endDate = new Date();
     endDate.setMonth(endDate.getMonth() + parseInt(tenure));
-    
     const totalAmount = parseFloat(listing.pricePerMonth) * parseInt(tenure);
-    
-    // ✅ Include sellerId when creating rental
     const rental = await Rental.create({
       userId,
       productId,
@@ -145,16 +117,11 @@ exports.createRental = async (req, res) => {
       address,
       paymentMethod: paymentMethod || 'cash'
     });
-    
     console.log('✅ Rental created successfully with seller_id:', rental.id, 'Seller:', rental.sellerId);
-    
-    // ✅✅✅ CREATE PAYMENT RECORD - THIS WAS MISSING! ✅✅✅
     try {
-      // Generate unique payment ID
       const timestamp = Date.now().toString().slice(-8);
       const randomStr = Math.random().toString(36).substr(2, 5).toUpperCase();
       const paymentId = `PAY${timestamp}${randomStr}`;
-      
       const payment = await Payment.create({
         id: paymentId,
         amount: totalAmount,
@@ -162,22 +129,16 @@ exports.createRental = async (req, res) => {
         status: 'pending',
         orderId: rental.id
       });
-      
       console.log('💳 Payment created successfully:', {
         paymentId: payment.id,
         amount: payment.amount,
         method: payment.paymentMethod,
         orderId: payment.orderId
       });
-      
     } catch (paymentError) {
       console.error('❌ Payment creation failed:', paymentError.message);
       console.error('Payment error details:', paymentError);
-      // Don't fail the rental creation if payment fails
-      // Just log the error - rental is already created
     }
-    
-    // Clear cart item
     try {
       await RentalCart.destroy({ 
         where: { userId, productId } 
@@ -186,13 +147,11 @@ exports.createRental = async (req, res) => {
     } catch (cartError) {
       console.log('⚠️ Cart clear skipped:', cartError.message);
     }
-    
     res.status(201).json({
       success: true,
       message: 'Rental created successfully',
       data: rental
     });
-    
   } catch (error) {
     console.error('❌ Error creating rental:', error);
     res.status(500).json({ 
@@ -201,32 +160,25 @@ exports.createRental = async (req, res) => {
     });
   }
 };
-
 exports.updateRentalStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    
     console.log('🔄 Updating rental status:', { id, status, userId: req.user.id });
-    
     const rental = await Rental.findOne({ 
       where: { 
         userId: req.user.id, 
         id 
       } 
     });
-    
     if (!rental) {
       return res.status(404).json({ 
         success: false,
         error: 'Rental not found' 
       });
     }
-    
     await rental.update({ status });
-    
     console.log('✅ Rental status updated');
-    
     res.json({
       success: true,
       message: 'Rental status updated',
@@ -240,37 +192,29 @@ exports.updateRentalStatus = async (req, res) => {
     });
   }
 };
-
 exports.renewRental = async (req, res) => {
   try {
     const { id } = req.params;
-    
     console.log('🔄 Renewing rental:', { id, userId: req.user.id });
-    
     const rental = await Rental.findOne({ 
       where: { 
         userId: req.user.id, 
         id 
       } 
     });
-    
     if (!rental) {
       return res.status(404).json({ 
         success: false,
         error: 'Rental not found' 
       });
     }
-    
     const newEndDate = new Date(rental.endDate);
     newEndDate.setMonth(newEndDate.getMonth() + rental.tenure);
-    
     await rental.update({ 
       endDate: newEndDate, 
       status: 'active' 
     });
-    
     console.log('✅ Rental renewed successfully');
-    
     res.json({ 
       success: true,
       message: 'Rental renewed successfully', 

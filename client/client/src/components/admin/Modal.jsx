@@ -1,8 +1,6 @@
 import React from 'react';
-
 function Modal({ isOpen, onClose, title, description, children, footer }) {
   if (!isOpen) return null;
-
   return (
     <div className={`modal-overlay ${isOpen ? 'active' : ''}`} onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -16,5 +14,4 @@ function Modal({ isOpen, onClose, title, description, children, footer }) {
     </div>
   );
 }
-
 export default Modal;

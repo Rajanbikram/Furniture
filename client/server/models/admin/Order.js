@@ -1,5 +1,4 @@
 const { DataTypes } = require('sequelize');
-
 module.exports = (sequelize) => {
   const Order = sequelize.define('Order', {
     id: {
@@ -63,6 +62,5 @@ module.exports = (sequelize) => {
     timestamps: true,
     underscored: true
   });
-
   return Order;
 };

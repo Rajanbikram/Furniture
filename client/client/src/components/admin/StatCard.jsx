@@ -1,5 +1,4 @@
 import React from 'react';
-
 function StatCard({ icon, value, label, trend, iconClass = 'primary' }) {
   return (
     <div className="card stat-card">
@@ -12,5 +11,4 @@ function StatCard({ icon, value, label, trend, iconClass = 'primary' }) {
     </div>
   );
 }
-
 export default StatCard;

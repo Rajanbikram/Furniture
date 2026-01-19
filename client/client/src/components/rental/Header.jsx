@@ -1,10 +1,8 @@
 import React from 'react';
 import { useRental } from '../../contexts/RentalContext';
-
 const Header = ({ onCartOpen }) => {
   const { cart } = useRental();
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-
   return (
     <header className="header">
       <div className="container header-inner">
@@ -34,5 +32,4 @@ const Header = ({ onCartOpen }) => {
     </header>
   );
 };
-
 export default Header;

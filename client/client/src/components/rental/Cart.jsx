@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useRental } from '../../contexts/RentalContext';
-
 const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
   const { cart, updateCartItem, removeFromCart } = useRental();
   const [promoCode, setPromoCode] = useState('');
   const [appliedDiscount, setAppliedDiscount] = useState(0);
   const [studentDiscount, setStudentDiscount] = useState(false);
-
   const promoCodes = { 'NEWYEAR25': 25, 'FIRST10': 10, 'STUDENT15': 15, 'NEPAL20': 20 };
-
   const handleQuantity = async (item, change) => {
     const newQty = item.quantity + change;
     if (newQty <= 0) {
@@ -17,11 +14,9 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
       await updateCartItem(item.id, { quantity: newQty });
     }
   };
-
   const handleTenureChange = async (item, tenure) => {
     await updateCartItem(item.id, { tenure: parseInt(tenure) });
   };
-
   const applyPromo = () => {
     const code = promoCode.toUpperCase();
     if (promoCodes[code]) {
@@ -31,12 +26,10 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
       showToast('Invalid code', 'Please check the code and try again.', 'error');
     }
   };
-
   const applyStudentDiscount = () => {
     setStudentDiscount(true);
     showToast('Student ID verified!', '10% student discount applied.');
   };
-
   const calculateTotals = () => {
     const subtotal = cart.reduce((sum, item) => {
       const price = item.product?.pricePerMonth || item.product?.price || 0;
@@ -46,9 +39,7 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
     if (studentDiscount) discount += subtotal * 0.1;
     return { subtotal, discount, total: subtotal - discount };
   };
-
   const { subtotal, discount, total } = calculateTotals();
-
   return (
     <>
       <div className={`cart-overlay ${isOpen ? 'show' : ''}`} onClick={onClose}></div>
@@ -69,7 +60,6 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
             </svg>
           </button>
         </div>
-
         {cart.length === 0 ? (
           <div className="cart-empty">
             <svg xmlns="http:
@@ -84,12 +74,10 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
           <>
             <div className="cart-items">
               {cart.map(item => {
-                
                 const product = item.product || {};
                 const productImage = product.images?.[0] || product.image || '/placeholder.png';
                 const productName = product.title || product.name || 'Product';
                 const productPrice = product.pricePerMonth || product.price || 0;
-                
                 return (
                   <div key={item.id} className="cart-item">
                     <div className="cart-item-content">
@@ -143,7 +131,6 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
                 );
               })}
             </div>
-
             <div className="cart-promo">
               <div className="promo-input-group">
                 <div className="promo-input-wrapper">
@@ -192,7 +179,6 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
                 )}
               </div>
             </div>
-
             <div className="cart-totals">
               <div className="cart-total-row">
                 <span>Subtotal</span>
@@ -218,5 +204,4 @@ const Cart = ({ isOpen, onClose, onCheckout, showToast }) => {
     </>
   );
 };
-
 export default Cart;

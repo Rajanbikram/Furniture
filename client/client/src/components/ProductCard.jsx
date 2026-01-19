@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/ProductCard.css';
-
 const ProductCard = ({ product, showToast, onLoginClick }) => {
   const [showDetails, setShowDetails] = useState(false);
-
   const handleBookNow = () => {
     if (onLoginClick) {
       onLoginClick();
@@ -11,7 +9,6 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
       showToast('Login Required', 'Please login to book this item');
     }
   };
-
   const handleAddToCart = () => {
     if (onLoginClick) {
       onLoginClick();
@@ -19,7 +16,6 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
       showToast('Login Required', 'Please login to add items to cart');
     }
   };
-
   return (
     <div className={`product-card ${showDetails ? 'expanded' : ''}`}>
       {}
@@ -33,7 +29,6 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
           }}
         />
       </div>
-
       {}
       <div className="product-content">
         <div>
@@ -41,7 +36,6 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
           <div className="product-meta">
             Category: {product.category} • {product.location}
           </div>
-
           {}
           {product.badges && product.badges.length > 0 && (
             <div className="badges-row">
@@ -53,7 +47,6 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
             </div>
           )}
         </div>
-
         {}
         <div className="product-footer">
           <div className="product-price">
@@ -64,7 +57,6 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
               </span>
             )}
           </div>
-
           {}
           <div className="product-actions">
             <button
@@ -82,19 +74,16 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
           </div>
         </div>
       </div>
-
       {}
       {showDetails && (
         <div className="product-expanded">
           <h4 className="expanded-title">Product Details</h4>
-          
           {}
           <div className="expanded-section">
             <p className="detail-text">
               {product.description || 'High-quality rental item available in your area. Contact us for more details.'}
             </p>
           </div>
-
           {}
           {product.deliveryZones && product.deliveryZones.length > 0 && (
             <div className="expanded-section">
@@ -108,7 +97,6 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
               </div>
             </div>
           )}
-
           {}
           {product.tenureOptions && (
             <div className="expanded-section">
@@ -120,7 +108,6 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
               </div>
             </div>
           )}
-
           {}
           <button
             onClick={handleAddToCart}
@@ -133,5 +120,4 @@ const ProductCard = ({ product, showToast, onLoginClick }) => {
     </div>
   );
 };
-
 export default ProductCard;

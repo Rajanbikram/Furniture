@@ -11,7 +11,6 @@ import ProductModal from '../components/rental/ProductModal';
 import BookingModal from '../components/rental/BookingModal';
 import { ToastContainer } from '../components/rental/Toast';
 import '../styles/rental.css';
-
 const RentalHome = () => {
   const { cart } = useRental();  
   const [cartOpen, setCartOpen] = useState(false);
@@ -19,63 +18,46 @@ const RentalHome = () => {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [toasts, setToasts] = useState([]);
-  
   const showToast = (title, message, type = 'success') => {
     const id = Date.now();
     setToasts([...toasts, { id, title, message, type }]);
   };
-  
   const removeToast = (id) => {
     setToasts(toasts.filter(t => t.id !== id));
   };
-  
   const handleViewDetails = (product) => {
     setSelectedProduct(product);
     setProductModalOpen(true);
   };
-  
   const handleBookNow = (product) => {
     setProductModalOpen(false);
     setSelectedProduct(product);
     setBookingModalOpen(true);
   };
-  
-  
   const handleCheckout = () => {
-    
     if (cart.length === 0) {
       showToast('Error', 'Your cart is empty', 'error');
       return;
     }
-    
-    
-    
     const firstItem = cart[0];
-    
-    
     const productForBooking = {
       id: firstItem.productId,
       name: firstItem.product?.title || firstItem.product?.name || 'Product',
       description: firstItem.product?.description || '',
       pricePerMonth: firstItem.product?.pricePerMonth || firstItem.product?.price || 0,
       image: firstItem.product?.images?.[0] || firstItem.product?.image || '/placeholder.png',
-      
       cartItemId: firstItem.id,
       tenure: firstItem.tenure,
       quantity: firstItem.quantity
     };
-    
     console.log('🛒 Checkout with product:', productForBooking);
-    
     setSelectedProduct(productForBooking);
     setCartOpen(false);
     setBookingModalOpen(true);
   };
-  
   return (
     <div className="rental-home">
       <Header onCartOpen={() => setCartOpen(true)} />
-      
       <main>
         <div className="container">
           <Hero />
@@ -84,16 +66,13 @@ const RentalHome = () => {
           <ProductGrid onViewDetails={handleViewDetails} showToast={showToast} />
         </div>
       </main>
-      
       <Cart 
         isOpen={cartOpen} 
         onClose={() => setCartOpen(false)} 
         onCheckout={handleCheckout}
         showToast={showToast}
       />
-      
       <CompareDrawer showToast={showToast} />
-      
       <ProductModal 
         product={selectedProduct}
         isOpen={productModalOpen}
@@ -101,17 +80,14 @@ const RentalHome = () => {
         onBookNow={handleBookNow}
         showToast={showToast}
       />
-      
       <BookingModal 
         product={selectedProduct}
         isOpen={bookingModalOpen}
         onClose={() => setBookingModalOpen(false)}
         showToast={showToast}
       />
-      
       <ToastContainer toasts={toasts} removeToast={removeToast} />
     </div>
   );
 };
-
 export default RentalHome;

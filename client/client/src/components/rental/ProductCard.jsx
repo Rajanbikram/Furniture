@@ -1,19 +1,15 @@
 import React from 'react';
 import { useRental } from '../../contexts/RentalContext';
-
 const ProductCard = ({ product, onViewDetails, showToast }) => {
   const { favorites, compareList, addToCart, toggleFavorite, toggleCompare } = useRental();
-  
   const isFavorite = favorites.includes(product.id);
   const isCompare = compareList.some(p => p.id === product.id);
   const discount = Math.round(((product.originalPrice - product.pricePerMonth) / product.originalPrice) * 100);
-  
   const badgeConfig = {
     hotDeal: { class: 'badge-hot-deal', text: '🔥 Hot Deal' },
     studentOffer: { class: 'badge-student-offer', text: '🎓 Student Offer' },
     limitedTime: { class: 'badge-limited-time', text: '⏰ Limited Time' }
   };
-
   const handleAddToCart = async () => {
     const success = await addToCart(product.id);
     if (success) {
@@ -22,14 +18,12 @@ const ProductCard = ({ product, onViewDetails, showToast }) => {
       showToast('Error', 'Failed to add to cart. Please login.', 'error');
     }
   };
-
   const handleToggleCompare = () => {
     toggleCompare(product);
     if (!isCompare && compareList.length >= 3) {
       showToast('Limit reached', 'You can compare up to 3 products.', 'error');
     }
   };
-
   return (
     <div className="product-card">
       <div className="product-image-container">
@@ -96,5 +90,4 @@ const ProductCard = ({ product, onViewDetails, showToast }) => {
     </div>
   );
 };
-
 export default ProductCard;

@@ -1,28 +1,22 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
-
 function ChartCard({ title, subtitle, trend, chartId, chartConfig, legend }) {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-
   useEffect(() => {
     if (chartRef.current && chartConfig) {
       const ctx = chartRef.current.getContext('2d');
-      
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
-
       chartInstance.current = new Chart(ctx, chartConfig);
     }
-
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
   }, [chartConfig]);
-
   return (
     <div className="card chart-card">
       <div className="chart-header">
@@ -47,5 +41,4 @@ function ChartCard({ title, subtitle, trend, chartId, chartConfig, legend }) {
     </div>
   );
 }
-
 export default ChartCard;

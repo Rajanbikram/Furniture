@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-
 const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTags, setSelectedTags] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-
   const [formData, setFormData] = useState({
     productName: '',
     description: '',
@@ -18,9 +16,7 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
     tenure6: false,
     tenure12: false,
   });
-
   const totalSteps = 4;
-
   const categories = [
     { value: 'furniture', label: 'Furniture' },
     { value: 'appliances', label: 'Appliances' },
@@ -28,7 +24,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
     { value: 'vehicles', label: 'Vehicles' },
     { value: 'other', label: 'Other' }
   ];
-
   const availableTags = [
     'Eco-Friendly',
     'New',
@@ -37,17 +32,14 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
     'Premium',
     'Budget-Friendly'
   ];
-
   const deliveryZoneOptions = [
     { id: 'ktm', label: 'Kathmandu Valley', value: 'ktm-valley' },
     { id: 'pokhara', label: 'Pokhara & Outskirts', value: 'pokhara-outskirts' },
     { id: 'nationwide', label: 'Nationwide', value: 'nationwide' }
   ];
-
   const formatNPR = (amount) => {
     return 'NPR ' + amount.toLocaleString('en-NP');
   };
-
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -55,7 +47,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
       [name]: type === 'checkbox' ? checked : value
     });
   };
-
   const toggleTag = (tag) => {
     if (selectedTags.includes(tag)) {
       setSelectedTags(selectedTags.filter(t => t !== tag));
@@ -63,7 +54,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
       setSelectedTags([...selectedTags, tag]);
     }
   };
-
   const toggleZone = (zone) => {
     if (formData.deliveryZones.includes(zone)) {
       setFormData({
@@ -77,7 +67,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
       });
     }
   };
-
   const calculatePricing = () => {
     const basePrice = parseFloat(formData.pricePerMonth) || 0;
     return {
@@ -86,64 +75,51 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
       price12: Math.round(basePrice * 0.85)
     };
   };
-
   const handleFileSelect = (e) => {
     const files = Array.from(e.target.files);
-    
     if (uploadedImages.length + files.length > 5) {
       alert('Maximum 5 images allowed!');
       return;
     }
-
     files.forEach(file => {
       if (!file.type.startsWith('image/')) {
         alert('Please select only image files!');
         return;
       }
-
       if (file.size > 10 * 1024 * 1024) {
         alert('File size must be less than 10MB!');
         return;
       }
-
       const reader = new FileReader();
       reader.onloadstart = () => {
         setIsUploading(true);
         setUploadProgress(0);
       };
-      
       reader.onprogress = (e) => {
         if (e.lengthComputable) {
           const progress = (e.loaded / e.total) * 100;
           setUploadProgress(progress);
         }
       };
-
       reader.onload = (e) => {
         setUploadedImages(prev => [...prev, e.target.result]);
         setIsUploading(false);
         setUploadProgress(0);
       };
-
       reader.onerror = () => {
         alert('Error reading file!');
         setIsUploading(false);
       };
-
       reader.readAsDataURL(file);
     });
-
     e.target.value = '';
   };
-
   const triggerFileInput = () => {
     document.getElementById('file-input-modal').click();
   };
-
   const removeImage = (index) => {
     setUploadedImages(uploadedImages.filter((_, i) => i !== index));
   };
-
   const nextStep = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
@@ -162,7 +138,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
         },
         images: uploadedImages,
       };
-
       if (onSubmit) {
         onSubmit(listingData);
       } else {
@@ -171,13 +146,11 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
       }
     }
   };
-
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
   };
-
   const handleClose = () => {
     setCurrentStep(1);
     setSelectedTags([]);
@@ -194,11 +167,8 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
     });
     onClose();
   };
-
   if (!isOpen) return null;
-
   const pricing = calculatePricing();
-
   const overlayStyle = {
     position: 'fixed',
     top: 0,
@@ -212,7 +182,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
     zIndex: 9999,
     padding: '20px'
   };
-
   const modalStyle = {
     backgroundColor: 'white',
     borderRadius: '12px',
@@ -223,7 +192,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
     boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
     position: 'relative'
   };
-
   const modalContent = (
     <div style={overlayStyle} onClick={(e) => {
       if (e.target === e.currentTarget) handleClose();
@@ -249,7 +217,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
               ×
             </button>
           </div>
-
           {}
           <div style={{
             display: 'flex',
@@ -303,7 +270,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
               </React.Fragment>
             ))}
           </div>
-
           {}
           {currentStep === 1 && (
             <div>
@@ -328,7 +294,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                   }}
                 />
               </div>
-
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#1e293b', marginBottom: '6px' }}>
                   Description
@@ -351,7 +316,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                   }}
                 />
               </div>
-
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#1e293b', marginBottom: '6px' }}>
                   Category
@@ -377,7 +341,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                   ))}
                 </select>
               </div>
-
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#1e293b', marginBottom: '6px' }}>
                   Tags
@@ -404,7 +367,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                   ))}
                 </div>
               </div>
-
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#1e293b', marginBottom: '6px' }}>
                   Delivery Zones
@@ -426,7 +388,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
               </div>
             </div>
           )}
-
           {}
           {currentStep === 2 && (
             <div>
@@ -451,12 +412,10 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                   }}
                 />
               </div>
-
               <div style={{ marginBottom: '20px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#1e293b', marginBottom: '6px' }}>
                   Tenure Options (with discounts)
                 </label>
-                
                 {[
                   { name: 'tenure3', label: '3 Months', price: pricing.price3 },
                   { name: 'tenure6', label: '6 Months (8% off)', price: pricing.price6 },
@@ -490,7 +449,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                   </div>
                 ))}
               </div>
-
               {formData.pricePerMonth && (formData.tenure3 || formData.tenure6 || formData.tenure12) && (
                 <div style={{ backgroundColor: '#f1f5f9', padding: '16px', borderRadius: '8px' }}>
                   <h4 style={{ fontWeight: '500', margin: '0 0 12px 0', fontSize: '14px' }}>
@@ -526,14 +484,12 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
               )}
             </div>
           )}
-
           {}
           {currentStep === 3 && (
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#1e293b', marginBottom: '12px' }}>
                 Product Images (up to 5)
               </label>
-
               {!isUploading && uploadedImages.length < 5 && (
                 <div>
                   <input
@@ -566,7 +522,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                   </div>
                 </div>
               )}
-
               {isUploading && (
                 <div style={{ marginTop: '20px' }}>
                   <div style={{ backgroundColor: '#e2e8f0', borderRadius: '999px', height: '8px', overflow: 'hidden' }}>
@@ -582,7 +537,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                   </p>
                 </div>
               )}
-
               {uploadedImages.length > 0 && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginTop: '20px' }}>
                   {uploadedImages.map((img, index) => (
@@ -633,7 +587,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
               )}
             </div>
           )}
-
           {}
           {currentStep === 4 && (
             <div>
@@ -664,7 +617,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
                     {formData.description || 'No description'}
                   </p>
                 </div>
-
                 <div style={{ fontSize: '14px' }}>
                   {[
                     { label: 'Category', value: formData.category },
@@ -693,7 +645,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
               </div>
             </div>
           )}
-
           {}
           <div style={{
             display: 'flex',
@@ -739,8 +690,6 @@ const AddListingModal = ({ isOpen, onClose, onSubmit }) => {
       </div>
     </div>
   );
-
   return createPortal(modalContent, document.body);
 };
-
 export default AddListingModal;

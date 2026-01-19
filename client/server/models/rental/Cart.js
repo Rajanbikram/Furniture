@@ -1,7 +1,5 @@
-// server/models/rental/Cart.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/database');
-
 const RentalCart = sequelize.define('RentalCart', {
   id: { 
     type: DataTypes.UUID, 
@@ -36,5 +34,4 @@ const RentalCart = sequelize.define('RentalCart', {
   underscored: true,
   timestamps: true
 });
-
 module.exports = RentalCart;

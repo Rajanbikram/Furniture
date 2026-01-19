@@ -15,40 +15,25 @@ import VerificationsTable from '../../components/admin/VerificationsTable';
 import PromosTable from '../../components/admin/PromosTable';
 import VatCalculator from '../../components/admin/VatCalculator';
 import PromoModal from '../../components/admin/PromoModal';
-
 function AdminPages() {
   const { showToast } = useToast();
   const [activePage, setActivePage] = useState('dashboard');
-  
-  
   const [dashboardData, setDashboardData] = useState(null);
   const [dashboardLoading, setDashboardLoading] = useState(true);
-  
-  
   const [usersData, setUsersData] = useState([]);
   const [usersLoading, setUsersLoading] = useState(false);
   const [usersStats, setUsersStats] = useState(null);
-  
-  
   const [listingsData, setListingsData] = useState([]);
   const [listingsLoading, setListingsLoading] = useState(false);
   const [listingsStats, setListingsStats] = useState(null);
-  
-  
   const [ordersData, setOrdersData] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [ordersStats, setOrdersStats] = useState(null);
-  
-  
   const [paymentsData, setPaymentsData] = useState([]);
   const [paymentsLoading, setPaymentsLoading] = useState(false);
   const [paymentsStats, setPaymentsStats] = useState(null);
-  
-  
   const [verifications, setVerifications] = useState([]);
   const [promos, setPromos] = useState([]);
-  
-  
   const [userSearch, setUserSearch] = useState('');
   const [userTypeFilter, setUserTypeFilter] = useState('all');
   const [listingFilter, setListingFilter] = useState('all');
@@ -56,7 +41,6 @@ function AdminPages() {
   const [paymentFilter, setPaymentFilter] = useState('all');
   const [vatModalOpen, setVatModalOpen] = useState(false);
   const [promoModalOpen, setPromoModalOpen] = useState(false);
-
   const pageHeaders = {
     dashboard: { title: 'Dashboard', subtitle: 'Welcome back, Admin' },
     users: { title: 'Users & Sellers', subtitle: 'Manage platform users' },
@@ -67,8 +51,6 @@ function AdminPages() {
     promotions: { title: 'Promotions', subtitle: 'Manage promo codes' },
     analytics: { title: 'Analytics', subtitle: 'Platform insights' },
   };
-
-  
   useEffect(() => {
     if (activePage === 'dashboard') {
       fetchDashboardData();
@@ -83,49 +65,36 @@ function AdminPages() {
       fetchPaymentStats();
     }
   }, [activePage]);
-
-  
   useEffect(() => {
     if (activePage === 'users') {
       fetchUsersData();
     }
   }, [userSearch, userTypeFilter]);
-
-  
   useEffect(() => {
     if (activePage === 'listings') {
       fetchListingsData();
     }
   }, [listingFilter]);
-
-  
   useEffect(() => {
     if (activePage === 'orders') {
       fetchOrdersData();
     }
   }, [orderFilter]);
-
-  
   useEffect(() => {
     if (activePage === 'payments') {
       fetchPaymentsData();
     }
   }, [paymentFilter]);
-
-  
   const fetchDashboardData = async () => {
     try {
       setDashboardLoading(true);
       const token = localStorage.getItem('token');
-      
       console.log('🔄 Fetching admin dashboard data...');
-      
       const response = await axios.get('http:
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-
       if (response.data.success) {
         setDashboardData(response.data.data);
         console.log('✅ Dashboard data loaded:', response.data.data);
@@ -137,25 +106,19 @@ function AdminPages() {
       setDashboardLoading(false);
     }
   };
-
-  
   const fetchUsersData = async () => {
     try {
       setUsersLoading(true);
       const token = localStorage.getItem('token');
-      
       console.log('🔄 Fetching users data...');
-      
       const params = new URLSearchParams();
       if (userSearch) params.append('search', userSearch);
       if (userTypeFilter !== 'all') params.append('type', userTypeFilter);
-      
       const response = await axios.get(`http:
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-
       if (response.data.success) {
         setUsersData(response.data.data.items);
         setUsersStats(response.data.data.stats);
@@ -168,29 +131,21 @@ function AdminPages() {
       setUsersLoading(false);
     }
   };
-
-  
   const fetchListingsData = async () => {
     try {
       setListingsLoading(true);
       const token = localStorage.getItem('token');
-      
       console.log('🔄 Fetching listings data...');
-      
       const params = new URLSearchParams();
       if (listingFilter !== 'all') params.append('status', listingFilter);
-      
       const response = await axios.get(`http:
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-
       console.log('✅ Listings response:', response.data);
-      
       const listings = Array.isArray(response.data) ? response.data : [];
       setListingsData(listings);
-      
       const stats = {
         total: listings.length,
         pending: listings.filter(l => l.status === 'pending').length,
@@ -200,9 +155,7 @@ function AdminPages() {
         paused: listings.filter(l => l.status === 'paused').length
       };
       setListingsStats(stats);
-      
       console.log('✅ Listings data loaded:', listings.length, 'listings');
-      
     } catch (error) {
       console.error('❌ Error fetching listings:', error);
       showToast('Error', 'Failed to load listings data');
@@ -210,29 +163,21 @@ function AdminPages() {
       setListingsLoading(false);
     }
   };
-
-  
   const fetchOrdersData = async () => {
     try {
       setOrdersLoading(true);
       const token = localStorage.getItem('token');
-      
       console.log('🔄 Fetching orders data...');
-      
       const params = new URLSearchParams();
       if (orderFilter !== 'all') params.append('status', orderFilter);
-      
       const response = await axios.get(`http:
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-
       console.log('✅ Orders response:', response.data);
-      
       const orders = Array.isArray(response.data) ? response.data : [];
       setOrdersData(orders);
-      
       const stats = {
         total: orders.length,
         booked: orders.filter(o => o.status === 'booked').length,
@@ -242,10 +187,8 @@ function AdminPages() {
         totalRevenue: orders.reduce((sum, o) => sum + Number(o.totalAmount || o.total_amount || 0), 0)
       };
       setOrdersStats(stats);
-      
       console.log('✅ Orders data loaded:', orders.length, 'orders');
       console.log('✅ Stats:', stats);
-      
     } catch (error) {
       console.error('❌ Error fetching orders:', error);
       showToast('Error', 'Failed to load orders data');
@@ -253,31 +196,22 @@ function AdminPages() {
       setOrdersLoading(false);
     }
   };
-
-  
   const fetchPaymentsData = async () => {
     try {
       setPaymentsLoading(true);
       const token = localStorage.getItem('token');
-      
       console.log('🔄 Fetching payments data...');
-      
       const params = new URLSearchParams();
       if (paymentFilter !== 'all') params.append('status', paymentFilter);
-      
       const response = await axios.get(`http:
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-
       console.log('✅ Payments response:', response.data);
-      
       const payments = Array.isArray(response.data) ? response.data : [];
       setPaymentsData(payments);
-      
       console.log('✅ Payments data loaded:', payments.length, 'payments');
-      
     } catch (error) {
       console.error('❌ Error fetching payments:', error);
       showToast('Error', 'Failed to load payments data');
@@ -285,29 +219,22 @@ function AdminPages() {
       setPaymentsLoading(false);
     }
   };
-
-  
   const fetchPaymentStats = async () => {
     try {
       const token = localStorage.getItem('token');
-      
       const response = await axios.get('http:
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-
       if (response.data.success) {
         setPaymentsStats(response.data.stats);
         console.log('✅ Payment stats loaded:', response.data.stats);
       }
-      
     } catch (error) {
       console.error('❌ Error fetching payment stats:', error);
     }
   };
-
-  
   const handleBanUser = async (user) => {
     try {
       const token = localStorage.getItem('token');
@@ -318,11 +245,9 @@ function AdminPages() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      
       const action = user.type === 'seller' 
         ? (user.isActive ? 'deactivated' : 'activated')
         : 'banned/unbanned';
-      
       showToast('Success', `User ${action} successfully`);
       fetchUsersData();
     } catch (error) {
@@ -330,12 +255,10 @@ function AdminPages() {
       showToast('Error', 'Failed to update user status');
     }
   };
-
   const handleDeleteUser = async (user) => {
     if (!window.confirm(`Are you sure you want to delete ${user.name || user.fullName}?`)) {
       return;
     }
-
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
@@ -345,7 +268,6 @@ function AdminPages() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      
       showToast('Success', 'User deleted successfully');
       fetchUsersData();
     } catch (error) {
@@ -353,15 +275,12 @@ function AdminPages() {
       showToast('Error', 'Failed to delete user');
     }
   };
-
   const handleRoleChange = async (user) => {
     const newRole = prompt(`Enter new role for ${user.fullName} (admin/seller/renter):`, user.role);
-    
     if (!newRole || !['admin', 'seller', 'renter'].includes(newRole)) {
       showToast('Error', 'Invalid role. Must be admin, seller, or renter');
       return;
     }
-
     try {
       const token = localStorage.getItem('token');
       await axios.put(
@@ -371,7 +290,6 @@ function AdminPages() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      
       showToast('Success', `Role updated to ${newRole}`);
       fetchUsersData();
     } catch (error) {
@@ -379,8 +297,6 @@ function AdminPages() {
       showToast('Error', 'Failed to update role');
     }
   };
-  
-  
   const handleApproveListing = async (listing) => {
     try {
       const token = localStorage.getItem('token');
@@ -391,7 +307,6 @@ function AdminPages() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      
       showToast('Success', `${listing.title} has been approved and activated`);
       fetchListingsData();
     } catch (error) {
@@ -399,7 +314,6 @@ function AdminPages() {
       showToast('Error', 'Failed to approve listing');
     }
   };
-  
   const handleRejectListing = async (listing) => {
     try {
       const token = localStorage.getItem('token');
@@ -410,7 +324,6 @@ function AdminPages() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      
       showToast('Success', `${listing.title} has been rejected`);
       fetchListingsData();
     } catch (error) {
@@ -418,12 +331,10 @@ function AdminPages() {
       showToast('Error', 'Failed to reject listing');
     }
   };
-
   const handleDeleteListing = async (listing) => {
     if (!window.confirm(`Are you sure you want to delete "${listing.title}"?`)) {
       return;
     }
-
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
@@ -432,7 +343,6 @@ function AdminPages() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      
       showToast('Success', 'Listing deleted successfully');
       fetchListingsData();
     } catch (error) {
@@ -440,13 +350,10 @@ function AdminPages() {
       showToast('Error', 'Failed to delete listing');
     }
   };
-
-  
   const handleOrderStatusChange = async (order, newStatus) => {
     if (!window.confirm(`Change order status to "${newStatus}"?`)) {
       return;
     }
-
     try {
       const token = localStorage.getItem('token');
       await axios.patch(
@@ -456,7 +363,6 @@ function AdminPages() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      
       showToast('Success', `Order status changed to ${newStatus}`);
       fetchOrdersData();
     } catch (error) {
@@ -464,13 +370,10 @@ function AdminPages() {
       showToast('Error', 'Failed to update order status');
     }
   };
-
-  
   const handlePaymentStatusChange = async (payment, newStatus) => {
     if (!window.confirm(`Change payment status to "${newStatus}"?`)) {
       return;
     }
-
     try {
       const token = localStorage.getItem('token');
       await axios.patch(
@@ -480,7 +383,6 @@ function AdminPages() {
           headers: { Authorization: `Bearer ${token}` }
         }
       );
-      
       showToast('Success', `Payment status changed to ${newStatus}`);
       fetchPaymentsData();
     } catch (error) {
@@ -488,27 +390,22 @@ function AdminPages() {
       showToast('Error', 'Failed to update payment status');
     }
   };
-  
   const handleApproveVerification = (v) => {
     setVerifications(verifications.map(ver => ver.id === v.id ? { ...ver, status: 'approved' } : ver));
     showToast('Student Verified', `${v.userName} is now verified`);
   };
-  
   const handleRejectVerification = (v) => {
     setVerifications(verifications.map(ver => ver.id === v.id ? { ...ver, status: 'rejected' } : ver));
     showToast('Verification Rejected', `${v.userName} was rejected`);
   };
-  
   const handleTogglePromo = (promo) => {
     setPromos(promos.map(p => p.id === promo.id ? { ...p, isActive: !p.isActive } : p));
     showToast(promo.isActive ? 'Promo Deactivated' : 'Promo Activated', `${promo.code} has been ${!promo.isActive ? 'activated' : 'deactivated'}`);
   };
-  
   const handleDeletePromo = (promo) => {
     setPromos(promos.filter(p => p.id !== promo.id));
     showToast('Promo Deleted', `${promo.code} has been deleted`);
   };
-  
   const handleCreatePromo = (formData) => {
     const newPromo = {
       id: Date.now().toString(),
@@ -523,8 +420,6 @@ function AdminPages() {
     setPromoModalOpen(false);
     showToast('Promo Created', `Promo code ${formData.code} has been created`);
   };
-
-  
   const userGrowthChart = {
     type: 'line',
     data: {
@@ -548,7 +443,6 @@ function AdminPages() {
       }
     }
   };
-
   const categoryChart = {
     type: 'doughnut',
     data: {
@@ -566,14 +460,12 @@ function AdminPages() {
       cutout: '60%'
     }
   };
-
   return (
     <div className="app-container">
       <Sidebar activePage={activePage} onPageChange={setActivePage} />
       <main className="main-content">
         <Header title={pageHeaders[activePage].title} subtitle={pageHeaders[activePage].subtitle} />
         <div className="page-content">
-
           {}
           {activePage === 'dashboard' && (
             <section className="page-section active">
@@ -589,19 +481,16 @@ function AdminPages() {
                     <StatCard icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>} value={dashboardData.stats.totalOrders} label="Total Orders" iconClass="warning" />
                     <StatCard icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>} value={`Rs. ${Math.round(dashboardData.stats.monthlyRevenue / 1000)}K`} label="Monthly Revenue" iconClass="primary" />
                   </div>
-
                   <div className="quick-stats">
                     <QuickStatCard icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>} value={dashboardData.stats.pendingListings} label="Pending Listings" iconStyle={{ background: 'hsl(38, 92%, 95%)', color: 'var(--warning)' }} />
                     <QuickStatCard icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>} value={dashboardData.stats.pendingOrders} label="Pending Orders" iconStyle={{ background: 'hsl(211, 100%, 95%)', color: 'var(--primary)' }} />
                     <QuickStatCard icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>} value={dashboardData.stats.activeSellers} label="Active Sellers" iconStyle={{ background: 'hsl(142, 76%, 95%)', color: 'var(--success)' }} />
                     <QuickStatCard icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>} value="N/A" label="Student Discounts" iconStyle={{ background: 'hsl(280, 65%, 95%)', color: 'var(--chart-4)' }} />
                   </div>
-
                   <div className="charts-grid">
                     <ChartCard title="User Growth" subtitle="Since first signup" chartId="userGrowth" chartConfig={userGrowthChart} />
                     <ChartCard title="Rentals by Category" subtitle="Distribution overview" chartId="category" chartConfig={categoryChart} legend={<>{dashboardData.charts?.categoryDistribution?.labels?.map((label, index) => (<div className="legend-item" key={index}><div className="legend-dot" style={{ background: ['hsl(211, 100%, 50%)', 'hsl(142, 76%, 36%)'][index] }}></div>{label} ({dashboardData.charts.categoryDistribution.percentages[index]}%)</div>))}</>} />
                   </div>
-
                   <div className="activity-grid">
                     <ActivityCard title="Recent Orders" items={dashboardData.recentActivity?.orders?.length > 0 ? dashboardData.recentActivity.orders.map(order => ({ title: `Order #${order.id.substring(0, 8)}`, subtitle: order.renterName, value: `Rs. ${order.amount.toLocaleString()}`, badge: order.status, badgeType: order.status === 'booked' ? 'warning' : order.status === 'active' ? 'primary' : 'success' })) : [{ title: 'No recent orders', subtitle: '', value: '', badge: '', badgeType: '' }]} />
                     <ActivityCard title="Pending Listings" items={dashboardData.recentActivity?.pendingListings?.length > 0 ? dashboardData.recentActivity.pendingListings.map(listing => ({ title: listing.title, subtitle: 'Awaiting approval', value: `Rs. ${listing.pricePerMonth}/month`, badge: 'Pending', badgeType: 'warning' })) : [{ title: 'No pending listings', subtitle: '', value: '', badge: '', badgeType: '' }]} />
@@ -615,7 +504,6 @@ function AdminPages() {
               )}
             </section>
           )}
-
           {}
           {activePage === 'users' && (
             <section className="page-section active">
@@ -631,7 +519,6 @@ function AdminPages() {
                   </div>
                 )}
               </div>
-
               <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <input type="text" placeholder="Search by name or email..." value={userSearch} onChange={(e) => setUserSearch(e.target.value)} style={{ flex: 1, minWidth: '250px', padding: '0.625rem 1rem', border: '1px solid hsl(214, 32%, 91%)', borderRadius: '0.5rem', fontSize: '0.875rem' }} />
                 <select value={userTypeFilter} onChange={(e) => setUserTypeFilter(e.target.value)} style={{ padding: '0.625rem 1rem', border: '1px solid hsl(214, 32%, 91%)', borderRadius: '0.5rem', fontSize: '0.875rem', background: 'white', cursor: 'pointer' }}>
@@ -640,7 +527,6 @@ function AdminPages() {
                   <option value="sellers">Sellers Only</option>
                 </select>
               </div>
-
               {usersLoading ? (
                 <div style={{ textAlign: 'center', padding: '3rem' }}><div style={{ fontSize: '1.125rem', color: '#64748b' }}>Loading users...</div></div>
               ) : (
@@ -648,7 +534,6 @@ function AdminPages() {
               )}
             </section>
           )}
-
           {}
           {activePage === 'listings' && (
             <section className="page-section active">
@@ -668,7 +553,6 @@ function AdminPages() {
                   </div>
                 )}
               </div>
-
               <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <select value={listingFilter} onChange={(e) => setListingFilter(e.target.value)} style={{ padding: '0.625rem 1rem', border: '1px solid hsl(214, 32%, 91%)', borderRadius: '0.5rem', fontSize: '0.875rem', background: 'white', cursor: 'pointer', minWidth: '200px' }}>
                   <option value="all">All Statuses</option>
@@ -679,7 +563,6 @@ function AdminPages() {
                   <option value="rejected">Rejected Only</option>
                 </select>
               </div>
-
               {listingsLoading ? (
                 <div style={{ textAlign: 'center', padding: '3rem', fontSize: '1.125rem', color: '#64748b' }}>Loading listings...</div>
               ) : listingsData.length > 0 ? (
@@ -693,7 +576,6 @@ function AdminPages() {
               )}
             </section>
           )}
-
           {}
           {activePage === 'orders' && (
             <section className="page-section active">
@@ -712,7 +594,6 @@ function AdminPages() {
                   </div>
                 )}
               </div>
-
               <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <select value={orderFilter} onChange={(e) => setOrderFilter(e.target.value)} style={{ padding: '0.625rem 1rem', border: '1px solid hsl(214, 32%, 91%)', borderRadius: '0.5rem', fontSize: '0.875rem', background: 'white', cursor: 'pointer', minWidth: '200px' }}>
                   <option value="all">All Statuses</option>
@@ -722,7 +603,6 @@ function AdminPages() {
                   <option value="returned">Returned Only</option>
                 </select>
               </div>
-
               {ordersLoading ? (
                 <div style={{ textAlign: 'center', padding: '3rem', fontSize: '1.125rem', color: '#64748b' }}>Loading orders...</div>
               ) : ordersData.length > 0 ? (
@@ -736,7 +616,6 @@ function AdminPages() {
               )}
             </section>
           )}
-
           {}
           {activePage === 'payments' && (
             <section className="page-section active">
@@ -755,7 +634,6 @@ function AdminPages() {
                   </div>
                 )}
               </div>
-
               <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
                 <select value={paymentFilter} onChange={(e) => setPaymentFilter(e.target.value)} style={{ padding: '0.625rem 1rem', border: '1px solid hsl(214, 32%, 91%)', borderRadius: '0.5rem', fontSize: '0.875rem', background: 'white', cursor: 'pointer', minWidth: '200px' }}>
                   <option value="all">All Statuses</option>
@@ -763,14 +641,12 @@ function AdminPages() {
                   <option value="completed">Completed Only</option>
                   <option value="failed">Failed Only</option>
                 </select>
-
                 {paymentsStats && (
                   <div style={{ padding: '0.625rem 1rem', background: 'hsl(142, 76%, 95%)', borderRadius: '0.5rem', fontSize: '0.875rem', color: 'hsl(142, 76%, 36%)', fontWeight: 600 }}>
                     VAT Collected (13%): Rs. {paymentsStats.totalVAT?.toLocaleString()}
                   </div>
                 )}
               </div>
-
               {paymentsLoading ? (
                 <div style={{ textAlign: 'center', padding: '3rem', fontSize: '1.125rem', color: '#64748b' }}>Loading payments...</div>
               ) : paymentsData.length > 0 ? (
@@ -784,7 +660,6 @@ function AdminPages() {
               )}
             </section>
           )}
-
           {}
           {activePage === 'verification' && (
             <section className="page-section active">
@@ -797,7 +672,6 @@ function AdminPages() {
               <div style={{ textAlign: 'center', padding: '3rem' }}><div>No verification data available yet. This feature will be implemented soon.</div></div>
             </section>
           )}
-
           {}
           {activePage === 'promotions' && (
             <section className="page-section active">
@@ -810,7 +684,6 @@ function AdminPages() {
               <div style={{ textAlign: 'center', padding: '3rem' }}><div>No promo data available yet. This feature will be implemented soon.</div></div>
             </section>
           )}
-
           {}
           {activePage === 'analytics' && (
             <section className="page-section active">
@@ -823,15 +696,12 @@ function AdminPages() {
               <div style={{ textAlign: 'center', padding: '3rem' }}><div>No analytics data available yet. This feature will be implemented soon.</div></div>
             </section>
           )}
-
         </div>
       </main>
-
       {}
       <VatCalculator isOpen={vatModalOpen} onClose={() => setVatModalOpen(false)} />
       <PromoModal isOpen={promoModalOpen} onClose={() => setPromoModalOpen(false)} onSubmit={handleCreatePromo} />
     </div>
   );
 }
-
 export default AdminPages;

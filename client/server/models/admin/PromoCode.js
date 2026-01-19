@@ -1,5 +1,4 @@
 const { DataTypes } = require('sequelize');
-
 module.exports = (sequelize) => {
   const PromoCode = sequelize.define('PromoCode', {
     id: {
@@ -36,6 +35,5 @@ module.exports = (sequelize) => {
     tableName: 'promo_codes',
     timestamps: true
   });
-
   return PromoCode;
 };

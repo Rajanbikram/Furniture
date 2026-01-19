@@ -1,10 +1,6 @@
 import React from 'react';
-
 function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
-  
   const filteredListings = listings.filter(l => filter === 'all' || l.status === filter);
-
-  
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -14,8 +10,6 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
       day: 'numeric' 
     });
   };
-
-  
   const getStatusBadgeClass = (status) => {
     switch(status) {
       case 'approved':
@@ -31,7 +25,6 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
         return 'badge-outline';
     }
   };
-
   return (
     <div className="card">
       <div className="table-container">
@@ -98,7 +91,6 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
                           <circle cx="12" cy="12" r="3"/>
                         </svg>
                       </button>
-
                       {}
                       {listing.status === 'pending' && (
                         <button 
@@ -111,7 +103,6 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
                           </svg>
                         </button>
                       )}
-
                       {}
                       {listing.status === 'pending' && (
                         <button 
@@ -125,7 +116,6 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
                           </svg>
                         </button>
                       )}
-
                       {}
                       <button 
                         className="btn btn-ghost btn-icon text-destructive" 
@@ -148,7 +138,6 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
           </tbody>
         </table>
       </div>
-      
       {}
       {filteredListings.length > 0 && (
         <div style={{ 
@@ -172,5 +161,4 @@ function ListingsTable({ listings, onApprove, onReject, onDelete, filter }) {
     </div>
   );
 }
-
 export default ListingsTable;

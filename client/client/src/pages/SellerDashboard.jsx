@@ -11,7 +11,6 @@ import ProfileTab from '../components/seller/ProfileTab';
 import AddListingModal from '../components/seller/AddListingModal';
 import Toast from '../components/seller/Toast';
 import '../styles/SellerDashboard.css';
-
 const SellerDashboard = () => {
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState('listings');
@@ -20,11 +19,9 @@ const SellerDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState([]);
   const [isAddListingModalOpen, setIsAddListingModalOpen] = useState(false);
-
   useEffect(() => {
     fetchDashboardData();
   }, []);
-
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -32,33 +29,24 @@ const SellerDashboard = () => {
         navigate('/login');
         return;
       }
-
       console.log('🔄 Fetching dashboard data...');
       const response = await api.get('/seller/dashboard');
-
       console.log('📦 Dashboard API Response:', response.data);
-
-      
       let sellerRentals = [];
       try {
         console.log('🔄 Fetching seller rentals...');
         const rentalsResponse = await api.get('/rental/seller-rentals');
         console.log('📦 Seller Rentals Response:', rentalsResponse.data);
-        
         if (rentalsResponse.data.success) {
           sellerRentals = rentalsResponse.data.data || [];
           console.log('✅ Seller rentals loaded:', sellerRentals.length);
         }
       } catch (rentalError) {
         console.error('⚠️ Error fetching seller rentals:', rentalError);
-        
       }
-
       if (response.data.success) {
         console.log('✅ Dashboard data loaded');
         console.log('📋 Listings count:', response.data.data.listings?.length || 0);
-        
-        
         setDashboardData({
           ...response.data.data,
           sellerRentals: sellerRentals
@@ -75,27 +63,21 @@ const SellerDashboard = () => {
       setLoading(false);
     }
   };
-
   const showToast = (title, description, variant = 'success') => {
     const id = Math.random().toString(36).substring(2) + Date.now().toString(36);
     const newToast = { id, title, description, variant };
-    
     setToasts(prev => {
       const updated = [...prev, newToast];
       return updated.slice(-3);
     });
-
     setTimeout(() => {
       removeToast(id);
     }, 5000);
-
     return id;
   };
-
   const removeToast = (id) => {
     setToasts(prev => prev.filter(t => t.id !== id));
   };
-
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
       localStorage.removeItem('token');
@@ -103,38 +85,25 @@ const SellerDashboard = () => {
       setTimeout(() => navigate('/'), 1500);
     }
   };
-
   const handleSearch = (value) => {
     setSearchQuery(value);
   };
-
   const handleAddListing = () => {
     console.log('🚀 Opening Add Listing modal');
     setIsAddListingModalOpen(true);
   };
-
   const handleCloseModal = () => {
     console.log('🔴 Closing modal');
     setIsAddListingModalOpen(false);
   };
-
   const handleListingSubmit = async (listingData) => {
     try {
       console.log('📤 Submitting listing:', listingData);
-      
-      
       const response = await api.post('/seller/listings', listingData);
-      
       console.log('✅ API Response:', response.data);
-      
       if (response.data.success) {
-        
         showToast('Success', 'Listing created successfully', 'success');
-        
-        
         setIsAddListingModalOpen(false);
-        
-        
         setTimeout(async () => {
           console.log('🔄 Refreshing dashboard after listing creation...');
           await fetchDashboardData();
@@ -145,13 +114,10 @@ const SellerDashboard = () => {
     } catch (error) {
       console.error('❌ Error creating listing:', error);
       console.error('Error details:', error.response?.data);
-      
-      
       const errorMessage = error.response?.data?.message || 'Failed to create listing';
       showToast('Error', errorMessage, 'error');
     }
   };
-
   if (loading) {
     return (
       <div style={{ 
@@ -166,7 +132,6 @@ const SellerDashboard = () => {
       </div>
     );
   }
-
   if (!dashboardData) {
     return (
       <div style={{ 
@@ -196,28 +161,21 @@ const SellerDashboard = () => {
       </div>
     );
   }
-
-
-
 const { seller, listings, rentalHistory, earnings, stats, sellerRentals } = dashboardData;
-
   console.log('🎨 Rendering dashboard with:', {
     listingsCount: listings?.length || 0,
     sellerRentalsCount: sellerRentals?.length || 0,
     modalOpen: isAddListingModalOpen
   });
-
   return (
     <div className="dashboard">
       <Toast toasts={toasts} onRemove={removeToast} />
-      
       <Sidebar
         currentTab={currentTab}
         onTabChange={setCurrentTab}
         stats={stats}
         onAddListing={handleAddListing}
       />
-
       <main className="main-content">
         <Header
           seller={seller}
@@ -225,7 +183,6 @@ const { seller, listings, rentalHistory, earnings, stats, sellerRentals } = dash
           onLogout={handleLogout}
           notificationCount={stats.unreadMessages}
         />
-
         <div className="content scrollbar-thin">
           {currentTab === 'listings' && (
             <ListingTab
@@ -236,22 +193,18 @@ const { seller, listings, rentalHistory, earnings, stats, sellerRentals } = dash
               onAddListing={handleAddListing}
             />
           )}
-
           {currentTab === 'pending' && (
             <PendingTab
               listings={(listings || []).filter(l => l.status === 'pending')}
               showToast={showToast}
             />
           )}
-
           {currentTab === 'earnings' && (
             <EarningsTab earnings={sellerRentals || []} />
           )}
-
           {currentTab === 'history' && (
             <HistoryTab history={sellerRentals || []} />
           )}
-
           {currentTab === 'profile' && (
             <ProfileTab
               seller={seller}
@@ -261,7 +214,6 @@ const { seller, listings, rentalHistory, earnings, stats, sellerRentals } = dash
           )}
         </div>
       </main>
-
       {}
       <AddListingModal
         isOpen={isAddListingModalOpen}
@@ -271,5 +223,4 @@ const { seller, listings, rentalHistory, earnings, stats, sellerRentals } = dash
     </div>
   );
 };
-
 export default SellerDashboard;

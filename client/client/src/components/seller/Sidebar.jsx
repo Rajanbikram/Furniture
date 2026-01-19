@@ -1,12 +1,9 @@
 import React from 'react';
-
 const Sidebar = ({ currentTab, onTabChange, stats = {}, onAddListing }) => {
-  
   const safeStats = {
     pendingListings: stats?.pendingListings || 0,
     ...stats
   };
-
   const navItems = [
     { id: 'listings', icon: '📦', label: 'My Listings' },
     { id: 'pending', icon: '⏱️', label: 'Pending Approvals', badge: safeStats.pendingListings },
@@ -14,7 +11,6 @@ const Sidebar = ({ currentTab, onTabChange, stats = {}, onAddListing }) => {
     { id: 'history', icon: '📜', label: 'Rental History' },
     { id: 'profile', icon: '👤', label: 'Profile' }
   ];
-
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
@@ -26,12 +22,10 @@ const Sidebar = ({ currentTab, onTabChange, stats = {}, onAddListing }) => {
           <p style={{ fontSize: '.75rem', opacity: 0.7 }}>Seller Dashboard</p>
         </div>
       </div>
-
       <button className="add-listing-btn" onClick={onAddListing}>
         <span>➕</span>
         Add New Listing
       </button>
-
       <nav className="nav-menu scrollbar-thin">
         {navItems.map(item => (
           <button
@@ -46,7 +40,6 @@ const Sidebar = ({ currentTab, onTabChange, stats = {}, onAddListing }) => {
           </button>
         ))}
       </nav>
-
       <div style={{
         padding: '1rem',
         margin: '1rem',
@@ -72,5 +65,4 @@ const Sidebar = ({ currentTab, onTabChange, stats = {}, onAddListing }) => {
     </aside>
   );
 };
-
 export default Sidebar;

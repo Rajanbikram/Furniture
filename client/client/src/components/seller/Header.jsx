@@ -1,9 +1,7 @@
 import React from 'react';
-
 const Header = ({ seller = {}, onSearch, onLogout, notificationCount = 0 }) => {
   const sellerName = seller?.fullName || seller?.name || 'Seller';
   const sellerAvatar = seller?.avatar || 'https:
-
   return (
     <header className="header">
       <div className="search-box">
@@ -14,7 +12,6 @@ const Header = ({ seller = {}, onSearch, onLogout, notificationCount = 0 }) => {
           onChange={(e) => onSearch?.(e.target.value)}
         />
       </div>
-      
       <div className="header-right">
         <button className="icon-btn" style={{ position: 'relative' }}>
           🔔
@@ -37,7 +34,6 @@ const Header = ({ seller = {}, onSearch, onLogout, notificationCount = 0 }) => {
             </span>
           )}
         </button>
-        
         <div style={{ display: 'flex', alignItems: 'center', gap: '.75rem' }}>
           <div className="avatar">
             <img 
@@ -50,7 +46,6 @@ const Header = ({ seller = {}, onSearch, onLogout, notificationCount = 0 }) => {
             <p style={{ fontSize: '.75rem', color: 'var(--muted-fg)' }}>Seller Account</p>
           </div>
         </div>
-        
         <button className="btn btn-secondary" onClick={onLogout}>
           🚪 Logout
         </button>
@@ -58,5 +53,4 @@ const Header = ({ seller = {}, onSearch, onLogout, notificationCount = 0 }) => {
     </header>
   );
 };
-
 export default Header;

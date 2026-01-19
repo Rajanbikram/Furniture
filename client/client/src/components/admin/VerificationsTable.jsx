@@ -1,5 +1,4 @@
 import React from 'react';
-
 function VerificationsTable({ verifications, onApprove, onReject }) {
   return (
     <div className="card">
@@ -75,5 +74,4 @@ function VerificationsTable({ verifications, onApprove, onReject }) {
     </div>
   );
 }
-
 export default VerificationsTable;

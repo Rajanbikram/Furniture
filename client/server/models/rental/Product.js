@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/database');
-
 const RentalProduct = sequelize.define('RentalProduct', {
   id: { 
     type: DataTypes.UUID,  // ✅ Changed from INTEGER to UUID
@@ -22,5 +21,4 @@ const RentalProduct = sequelize.define('RentalProduct', {
   tableName: 'rental_products',
   underscored: true
 });
-
 module.exports = RentalProduct;

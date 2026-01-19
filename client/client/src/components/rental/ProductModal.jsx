@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { rentalAPI } from '../../services/api';
-
 const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
   const [productDetails, setProductDetails] = useState(null);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     if (product && isOpen) {
       fetchProductDetails();
     }
   }, [product, isOpen]);
-
   const fetchProductDetails = async () => {
     try {
       setLoading(true);
@@ -22,12 +19,9 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
       setLoading(false);
     }
   };
-
   if (!product || !isOpen) return null;
-
   const discount = Math.round(((product.originalPrice - product.pricePerMonth) / product.originalPrice) * 100);
   const details = productDetails || product;
-
   return (
     <div className={`modal-overlay ${isOpen ? 'show' : ''}`} onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -94,7 +88,6 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
               </div>
             </div>
           )}
-          
           {details.reviews && details.reviews.length > 0 && (
             <div className="reviews-section">
               <h4>
@@ -129,5 +122,4 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
     </div>
   );
 };
-
 export default ProductModal;

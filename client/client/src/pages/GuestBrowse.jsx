@@ -7,11 +7,8 @@ import DealsCarousel from '../components/DealsCarousel';
 import Toast from '../components/Toast';
 import { productAPI, dealAPI } from '../services/api';
 import '../styles/globals.css';
-
 const GuestBrowse = () => {
   const navigate = useNavigate();
-  
-  
   const [products, setProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [deals, setDeals] = useState([]);
@@ -19,8 +16,6 @@ const GuestBrowse = () => {
   const [error, setError] = useState(null);
   const [toasts, setToasts] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true); 
-
-  
   const [filters, setFilters] = useState({
     searchQuery: '',
     selectedCategory: 'all',
@@ -29,30 +24,22 @@ const GuestBrowse = () => {
     tenure: '3',
     location: 'all'
   });
-
-  
   useEffect(() => {
     fetchData();
   }, []);
-
-  
   useEffect(() => {
     applyFilters();
   }, [filters, allProducts]);
-
   const fetchData = async () => {
     try {
       setLoading(true);
       console.log('🔄 Fetching products and deals...');
-      
       const [productsRes, dealsRes] = await Promise.all([
         productAPI.getAll(),
         dealAPI.getAll()
       ]);
-
       console.log('📦 Products received:', productsRes.data.data);
       console.log('🎁 Deals received:', dealsRes.data.data);
-
       setAllProducts(productsRes.data.data);
       setProducts(productsRes.data.data);
       setDeals(dealsRes.data.data);
@@ -65,57 +52,41 @@ const GuestBrowse = () => {
       setLoading(false);
     }
   };
-
   const applyFilters = () => {
     console.log('🔍 Applying filters:', filters);
     let filtered = [...allProducts];
-
-    
     if (filters.searchQuery) {
       filtered = filtered.filter(p =>
         p.title?.toLowerCase().includes(filters.searchQuery.toLowerCase())
       );
     }
-
-    
     if (filters.selectedCategory !== 'all') {
       filtered = filtered.filter(p =>
         p.category?.toLowerCase() === filters.selectedCategory.toLowerCase()
       );
     }
-
-    
     if (filters.location !== 'all') {
       filtered = filtered.filter(p => {
-        
         if (p.location && p.location === filters.location) {
           return true;
         }
-        
-        
         if (p.deliveryZones && Array.isArray(p.deliveryZones)) {
           return p.deliveryZones.some(zone => 
             zone.toLowerCase() === filters.location.toLowerCase()
           );
         }
-        
         return false;
       });
     }
-
-    
     filtered = filtered.filter(p => {
       const productPrice = p.pricePerMonth || p.price || 0;
       return productPrice >= filters.minPrice && productPrice <= filters.maxPrice;
     });
-
-    
     if (filters.tenure !== '3') {
       const tenureMonths = parseInt(filters.tenure);
       let discount = 0;
       if (tenureMonths === 6) discount = 0.05;
       if (tenureMonths === 12) discount = 0.10;
-
       filtered = filtered.map(product => {
         const basePrice = product.pricePerMonth || product.price || 0;
         return {
@@ -127,34 +98,26 @@ const GuestBrowse = () => {
         };
       });
     }
-
     console.log('✅ Filtered products:', filtered.length);
     setProducts(filtered);
   };
-
   const handleSearch = (query) => {
     setFilters({ ...filters, searchQuery: query });
   };
-
   const handleFilterChange = (newFilters) => {
     console.log('🔄 Filter changed:', newFilters);
     setFilters(newFilters);
   };
-
   const showToast = (title, description) => {
     const id = Date.now();
     setToasts([...toasts, { id, title, description }]);
-    
-    
     setTimeout(() => {
       removeToast(id);
     }, 3000);
   };
-
   const removeToast = (id) => {
     setToasts(toasts.filter(t => t.id !== id));
   };
-
   const clearFilters = () => {
     setFilters({
       searchQuery: '',
@@ -165,15 +128,12 @@ const GuestBrowse = () => {
       location: 'all'
     });
   };
-
   const handleLoginClick = () => {
     navigate('/login');
   };
-
   const handleRegisterClick = () => {
     navigate('/register');
   };
-
   if (loading) {
     return (
       <div className="loading-container">
@@ -181,7 +141,6 @@ const GuestBrowse = () => {
       </div>
     );
   }
-
   return (
     <div className="app-container">
       {}
@@ -192,7 +151,6 @@ const GuestBrowse = () => {
         onLoginClick={handleLoginClick}
         onRegisterClick={handleRegisterClick}
       />
-
       {}
       <Sidebar
         filters={filters}
@@ -201,7 +159,6 @@ const GuestBrowse = () => {
         onToggle={() => setSidebarOpen(!sidebarOpen)}
         showToast={showToast}
       />
-
       {}
       <main className={`main-content ${sidebarOpen ? 'with-sidebar' : ''}`}>
         <div className="container-custom">
@@ -215,7 +172,6 @@ const GuestBrowse = () => {
               onLoginClick={handleLoginClick}
             />
           </section>
-
           {}
           <section className="mt-8">
             <div className="results-header">
@@ -226,7 +182,6 @@ const GuestBrowse = () => {
                 </p>
               </div>
             </div>
-
             {}
             {products.length > 0 ? (
               <div className="products-grid">
@@ -253,7 +208,6 @@ const GuestBrowse = () => {
               </div>
             )}
           </section>
-
           {}
           <section className="cta-section">
             <h3 className="cta-title">❤️ Found Something You Love?</h3>
@@ -269,7 +223,6 @@ const GuestBrowse = () => {
           </section>
         </div>
       </main>
-
       {}
       <div className="toast-container">
         {toasts.map((toast) => (
@@ -284,5 +237,4 @@ const GuestBrowse = () => {
     </div>
   );
 };
-
 export default GuestBrowse;

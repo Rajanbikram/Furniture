@@ -1,9 +1,5 @@
-// server/models/admin/index.js
-// Export all admin models
-
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
-
 const sequelize = new Sequelize(
   process.env.DB_NAME || 'renteasy_nepal',
   process.env.DB_USER || 'postgres',
@@ -14,8 +10,6 @@ const sequelize = new Sequelize(
     logging: false
   }
 );
-
-// Import models
 const Admin = require('./Admin')(sequelize);
 const Listing = require('./Listing')(sequelize);
 const Order = require('./Order')(sequelize);
@@ -23,15 +17,9 @@ const Payment = require('./Payment')(sequelize);
 const PromoCode = require('./Promocode')(sequelize);
 const StudentVerification = require('./StudentVerification')(sequelize);
 const LoginLog = require('./LoginLog')(sequelize);
-
-// Define associations
-// REMOVED: Order.belongsTo(Listing) - rentals table doesn't have listingId
-// Instead, it has product_id which references rental_products
 Payment.belongsTo(Order, { foreignKey: 'orderId', as: 'order' });
 StudentVerification.belongsTo(Admin, { foreignKey: 'userId', as: 'user' });
 LoginLog.belongsTo(Admin, { foreignKey: 'userId', as: 'user' });
-
-// Export everything including sequelize instance
 module.exports = {
   sequelize,
   Sequelize,

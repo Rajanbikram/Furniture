@@ -1,14 +1,11 @@
 import React from 'react';
 import { useToast } from '../../hooks/useToast';
-
 function PromosTable({ promos, onToggle, onDelete }) {
   const { showToast } = useToast();
-
   const copyToClipboard = (code) => {
     navigator.clipboard.writeText(code);
     showToast('Copied!', `Promo code ${code} copied to clipboard`);
   };
-
   return (
     <div className="card">
       <div className="table-container">
@@ -80,5 +77,4 @@ function PromosTable({ promos, onToggle, onDelete }) {
     </div>
   );
 }
-
 export default PromosTable;

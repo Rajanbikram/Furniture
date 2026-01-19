@@ -1,19 +1,15 @@
 import React from 'react';
 import { useRental } from '../../contexts/RentalContext';
-
 const ActiveRentals = ({ showToast }) => {
   const { rentals, renewRental } = useRental();
-
   const getDaysRemaining = (endDate) => {
     const end = new Date(endDate);
     const today = new Date();
     return Math.ceil((end - today) / (1000 * 60 * 60 * 24));
   };
-
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
   };
-
   const handleRenew = async (rentalId) => {
     const success = await renewRental(rentalId);
     if (success) {
@@ -22,16 +18,13 @@ const ActiveRentals = ({ showToast }) => {
       showToast('Error', 'Failed to renew rental.', 'error');
     }
   };
-
   const steps = ['booked', 'active', 'ending-soon', 'returned'];
-  
   const statusBadges = {
     booked: 'badge-info',
     active: 'badge-success',
     'ending-soon': 'badge-warning',
     returned: 'badge-secondary'
   };
-
   if (rentals.length === 0) {
     return (
       <section className="section">
@@ -57,7 +50,6 @@ const ActiveRentals = ({ showToast }) => {
       </section>
     );
   }
-
   return (
     <section className="section">
       <h2 className="section-title">
@@ -72,12 +64,9 @@ const ActiveRentals = ({ showToast }) => {
       {rentals.map(rental => {
         const days = getDaysRemaining(rental.endDate);
         const currentIdx = steps.indexOf(rental.status);
-        
-        
         const product = rental.product || {};
         const productImage = product.images?.[0] || '/placeholder-product.jpg';
         const productName = product.title || 'Product';
-        
         return (
           <div key={rental.id} className="active-rental-card">
             <div className="rental-content">
@@ -148,5 +137,4 @@ const ActiveRentals = ({ showToast }) => {
     </section>
   );
 };
-
 export default ActiveRentals;

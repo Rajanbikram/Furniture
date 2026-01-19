@@ -1,9 +1,6 @@
 import React from 'react';
-
 function PaymentsTable({ payments, onStatusChange, filter, stats }) {
   const filteredPayments = payments.filter(p => filter === 'all' || p.status === filter);
-
-  
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -15,8 +12,6 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
       minute: '2-digit'
     });
   };
-
-  
   const getStatusBadgeClass = (status) => {
     switch(status) {
       case 'completed':
@@ -29,7 +24,6 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
         return 'badge-outline';
     }
   };
-
   return (
     <div className="card">
       <div style={{ 
@@ -49,7 +43,6 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
           </div>
         )}
       </div>
-      
       <div className="table-container">
         <table>
           <thead>
@@ -75,7 +68,6 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
             ) : (
               filteredPayments.map(payment => {
                 const totalAmount = Number(payment.amount || 0) + Number(payment.vatAmount || payment.vat_amount || 0);
-                
                 return (
                   <tr key={payment.id}>
                     <td className="font-mono text-sm">
@@ -126,7 +118,6 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
                             <circle cx="12" cy="12" r="3"/>
                           </svg>
                         </button>
-
                         {}
                         {payment.status === 'pending' && (
                           <>
@@ -160,7 +151,6 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
           </tbody>
         </table>
       </div>
-
       {}
       {filteredPayments.length > 0 && (
         <div style={{ 
@@ -192,5 +182,4 @@ function PaymentsTable({ payments, onStatusChange, filter, stats }) {
     </div>
   );
 }
-
 export default PaymentsTable;

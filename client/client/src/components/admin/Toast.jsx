@@ -1,5 +1,4 @@
 import React from 'react';
-
 function Toast({ title, message }) {
   return (
     <div className="toast">
@@ -8,5 +7,4 @@ function Toast({ title, message }) {
     </div>
   );
 }
-
 export default Toast;

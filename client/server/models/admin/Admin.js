@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
-
 module.exports = (sequelize) => {
   const Admin = sequelize.define('Admin', {
     id: {
@@ -56,10 +55,8 @@ module.exports = (sequelize) => {
       }
     }
   });
-
   Admin.prototype.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
   };
-
   return Admin;
 };

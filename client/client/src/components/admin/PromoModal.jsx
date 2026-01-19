@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
-
 function PromoModal({ isOpen, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
     code: '',
@@ -8,7 +7,6 @@ function PromoModal({ isOpen, onClose, onSubmit }) {
     type: 'percentage',
     expiresAt: '',
   });
-
   const handleSubmit = () => {
     if (!formData.code || !formData.discount || !formData.expiresAt) {
       alert('Please fill in all fields');
@@ -17,12 +15,10 @@ function PromoModal({ isOpen, onClose, onSubmit }) {
     onSubmit(formData);
     setFormData({ code: '', discount: '', type: 'percentage', expiresAt: '' });
   };
-
   const handleClose = () => {
     setFormData({ code: '', discount: '', type: 'percentage', expiresAt: '' });
     onClose();
   };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -86,5 +82,4 @@ function PromoModal({ isOpen, onClose, onSubmit }) {
     </Modal>
   );
 }
-
 export default PromoModal;

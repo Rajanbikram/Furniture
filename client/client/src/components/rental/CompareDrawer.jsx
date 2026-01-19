@@ -1,18 +1,14 @@
 import React from 'react';
 import { useRental } from '../../contexts/RentalContext';
-
 const CompareDrawer = ({ showToast }) => {
   const { compareList, clearCompare, toggleCompare, addToCart } = useRental();
-
   if (compareList.length === 0) return null;
-
   const handleAddToCart = async (productId) => {
     const success = await addToCart(productId);
     if (success) {
       showToast('Added to cart', 'Product added to cart successfully.');
     }
   };
-
   return (
     <div className="compare-drawer show">
       <div className="compare-drawer-inner container">
@@ -71,5 +67,4 @@ const CompareDrawer = ({ showToast }) => {
     </div>
   );
 };
-
 export default CompareDrawer;

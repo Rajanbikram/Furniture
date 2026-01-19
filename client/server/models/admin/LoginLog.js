@@ -1,5 +1,4 @@
 const { DataTypes } = require('sequelize');
-
 module.exports = (sequelize) => {
   const LoginLog = sequelize.define('LoginLog', {
     id: {
@@ -22,7 +21,5 @@ module.exports = (sequelize) => {
     timestamps: true,
     updatedAt: false
   });
-
   return LoginLog;
 };
-    

@@ -1,5 +1,4 @@
 import React from 'react';
-
 const Toast = ({ toasts, onRemove }) => {
   return (
     <div className="toast-container">
@@ -19,5 +18,4 @@ const Toast = ({ toasts, onRemove }) => {
     </div>
   );
 };
-
 export default Toast;

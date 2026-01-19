@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useRental } from '../../contexts/RentalContext';
 import { authService } from '../../services/authService';
-
 const BookingModal = ({ product, isOpen, onClose, showToast }) => {
   const { createRental } = useRental();
   const [step, setStep] = useState(1);
@@ -11,7 +10,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
     paymentMethod: 'esewa',
     studentDiscount: false
   });
-
   const stepIcons = {
     1: '<svg xmlns="http:
     2: '<svg xmlns="http:
@@ -19,7 +17,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
     4: '<svg xmlns="http:
     5: '<svg xmlns="http:
   };
-
   const handleNext = () => {
     if (step === 3 && !validateAddress()) {
       showToast('Error', 'Please fill all address fields', 'error');
@@ -27,29 +24,24 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
     }
     if (step < 5) setStep(step + 1);
   };
-
   const handlePrev = () => {
     if (step > 1) setStep(step - 1);
   };
-
   const validateAddress = () => {
     const { fullName, phone, street, city, state, pincode } = bookingData.address;
     return fullName && phone && street && city && state && pincode;
   };
-
   const handleSubmit = async () => {
     if (!authService.isAuthenticated()) {
       showToast('Error', 'Please login to complete booking', 'error');
       return;
     }
-
     const success = await createRental({
       productId: product.id,
       tenure: bookingData.tenure,
       address: bookingData.address,
       paymentMethod: bookingData.paymentMethod
     });
-
     if (success) {
       showToast('Booking successful!', 'Your rental has been confirmed.');
       onClose();
@@ -58,15 +50,12 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
       showToast('Error', 'Failed to create booking. Please try again.', 'error');
     }
   };
-
   if (!product || !isOpen) return null;
-
   const calculateTotal = () => {
     let total = product.pricePerMonth * bookingData.tenure;
     if (bookingData.studentDiscount) total *= 0.9;
     return total;
   };
-
   return (
     <div className={`modal-overlay ${isOpen ? 'show' : ''}`} onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -79,7 +68,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
             </svg>
           </button>
         </div>
-
         <div className="modal-body">
           {}
           <div className="booking-steps">
@@ -90,7 +78,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
               </div>
             ))}
           </div>
-
           <div className="booking-content">
             {}
             {step === 1 && (
@@ -108,7 +95,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
                 </div>
               </>
             )}
-
             {}
             {step === 2 && (
               <>
@@ -152,7 +138,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
                 </div>
               </>
             )}
-
             {}
             {step === 3 && (
               <>
@@ -189,7 +174,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
                 </div>
               </>
             )}
-
             {}
             {step === 4 && (
               <>
@@ -211,7 +195,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
                 </div>
               </>
             )}
-
             {}
             {step === 5 && (
               <>
@@ -261,7 +244,6 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
             )}
           </div>
         </div>
-
         <div className="modal-footer">
           {step > 1 && (
             <button className="btn btn-secondary" onClick={handlePrev}>Previous</button>
@@ -276,5 +258,4 @@ const BookingModal = ({ product, isOpen, onClose, showToast }) => {
     </div>
   );
 };
-
 export default BookingModal;"

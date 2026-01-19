@@ -1,10 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import api from '../../services/api';  
-
 const ProfileTab = ({ seller, onUpdate, showToast }) => {
   const [isEditing, setIsEditing] = useState(false);
-  
   const [formData, setFormData] = useState({
     name: seller.name || '',
     phone: seller.phone || '',
@@ -12,7 +10,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
     bankName: seller.bankName || '',
     bankAccount: seller.bankAccount || ''
   });
-
   const formatDate = (date) => {
     if (!date) return 'N/A';
     const dt = new Date(date);
@@ -22,23 +19,17 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
       day: 'numeric'
     });
   };
-
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
   };
-
   const handleSave = async () => {
     try {
       console.log('💾 Saving profile...', formData);
-      
-      
       const response = await api.put('/seller/profile', formData);
-
       console.log('✅ Profile update response:', response.data);
-
       if (response.data.success) {
         showToast('Updated!', 'Profile saved successfully', 'success');
         setIsEditing(false);
@@ -50,7 +41,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
       showToast('Error', error.response?.data?.message || 'Failed to update profile', 'error');
     }
   };
-
   const handleCancel = () => {
     setFormData({
       name: seller.name || '',
@@ -61,7 +51,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
     });
     setIsEditing(false);
   };
-
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -74,7 +63,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
           </button>
         )}
       </div>
-
       <div className="stats-grid">
         <div className="stat-card">
           <div className="stat-content">
@@ -94,7 +82,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
             </div>
           </div>
         </div>
-
         <div className="stat-card">
           <div className="stat-content">
             <div className="stat-icon" style={{
@@ -113,7 +100,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
             </div>
           </div>
         </div>
-
         <div className="stat-card">
           <div className="stat-content">
             <div className="stat-icon" style={{
@@ -133,7 +119,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
           </div>
         </div>
       </div>
-
       <div style={{
         background: 'var(--card)',
         border: '1px solid var(--border)',
@@ -144,7 +129,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1.5rem' }}>
           Personal Info
         </h3>
-
         <div className="profile-header-section">
           <div className="profile-avatar">
             <div className="avatar">
@@ -170,7 +154,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
             </div>
           </div>
         </div>
-
         {isEditing ? (
           <div className="form-grid">
             <div className="form-group">
@@ -237,7 +220,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
           </div>
         )}
       </div>
-
       <div style={{
         background: 'var(--card)',
         border: '1px solid var(--border)',
@@ -247,7 +229,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
         <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '1.5rem' }}>
           Payout Settings
         </h3>
-
         {isEditing ? (
           <div className="form-grid">
             <div className="form-group">
@@ -296,7 +277,6 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
           </div>
         )}
       </div>
-
       {isEditing && (
         <div style={{
           display: 'flex',
@@ -315,5 +295,4 @@ const ProfileTab = ({ seller, onUpdate, showToast }) => {
     </div>
   );
 };
-
 export default ProfileTab;

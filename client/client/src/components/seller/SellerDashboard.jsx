@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from '../components/seller/Sidebar';
@@ -13,7 +12,6 @@ import HistoryTab from '../components/seller/HistoryTab';
 import ProfileTab from '../components/seller/ProfileTab';
 import Toast from '../components/seller/Toast';
 import '../styles/SellerDashboard.css';
-
 const SellerDashboard = () => {
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState('listings');
@@ -21,24 +19,19 @@ const SellerDashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState([]);
-
   useEffect(() => {
     console.log('📊 SellerDashboard Mounted');
     const token = localStorage.getItem('token');
     const userRole = localStorage.getItem('userRole');
-    
     console.log('🔑 Token exists:', !!token);
     console.log('👤 User role:', userRole);
-    
     if (!token) {
       console.log('❌ No token, redirecting to login');
       navigate('/login');
       return;
     }
-    
     fetchDashboardData();
   }, [navigate]);
-
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -47,15 +40,11 @@ const SellerDashboard = () => {
         navigate('/login');
         return;
       }
-
       console.log('🔄 Fetching dashboard data from backend...');
-
       const response = await axios.get('http:
         headers: { Authorization: `Bearer ${token}` }
       });
-
       console.log('✅ Dashboard response received:', response.data);
-
       if (response.data.success) {
         setDashboardData(response.data.data);
         console.log('✅ Dashboard data set successfully');
@@ -65,7 +54,6 @@ const SellerDashboard = () => {
     } catch (error) {
       console.error('❌ Dashboard fetch error:', error);
       console.error('Error details:', error.response?.data);
-      
       if (error.response?.status === 401) {
         console.log('❌ 401 Unauthorized - clearing tokens and redirecting');
         localStorage.removeItem('token');
@@ -79,27 +67,21 @@ const SellerDashboard = () => {
       setLoading(false);
     }
   };
-
   const showToast = (title, description, variant = 'success') => {
     const id = Math.random().toString(36).substring(2) + Date.now().toString(36);
     const newToast = { id, title, description, variant };
-    
     setToasts(prev => {
       const updated = [...prev, newToast];
       return updated.slice(-3);
     });
-
     setTimeout(() => {
       removeToast(id);
     }, 5000);
-
     return id;
   };
-
   const removeToast = (id) => {
     setToasts(prev => prev.filter(t => t.id !== id));
   };
-
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
       localStorage.removeItem('token');
@@ -109,11 +91,9 @@ const SellerDashboard = () => {
       setTimeout(() => navigate('/'), 1500);
     }
   };
-
   const handleSearch = (value) => {
     setSearchQuery(value);
   };
-
   if (loading) {
     return (
       <div style={{ 
@@ -129,7 +109,6 @@ const SellerDashboard = () => {
       </div>
     );
   }
-
   if (!dashboardData) {
     return (
       <div style={{ 
@@ -179,22 +158,17 @@ const SellerDashboard = () => {
       </div>
     );
   }
-
   const { seller, listings, messages, rentalHistory, earnings, stats } = dashboardData;
-
   console.log('🎨 Rendering dashboard with data:', { seller, stats });
-
   return (
     <div className="dashboard">
       <Toast toasts={toasts} onRemove={removeToast} />
-      
       <Sidebar
         currentTab={currentTab}
         onTabChange={setCurrentTab}
         stats={stats}
         onAddListing={() => showToast('Coming Soon', 'Add listing modal', 'success')}
       />
-
       <main className="main-content">
         <Header
           seller={seller}
@@ -202,7 +176,6 @@ const SellerDashboard = () => {
           onLogout={handleLogout}
           notificationCount={stats.unreadMessages}
         />
-
         <div className="content scrollbar-thin">
           {currentTab === 'listings' && (
             <ListingTab
@@ -212,14 +185,12 @@ const SellerDashboard = () => {
               showToast={showToast}
             />
           )}
-
           {currentTab === 'pending' && (
             <PendingTab
               listings={listings.filter(l => l.status === 'pending')}
               showToast={showToast}
             />
           )}
-
           {currentTab === 'messages' && (
             <MessagesTab
               messages={messages}
@@ -228,15 +199,12 @@ const SellerDashboard = () => {
               showToast={showToast}
             />
           )}
-
           {currentTab === 'earnings' && (
             <EarningsTab earnings={earnings} />
           )}
-
           {currentTab === 'history' && (
             <HistoryTab history={rentalHistory} />
           )}
-
           {currentTab === 'profile' && (
             <ProfileTab
               seller={seller}
@@ -249,5 +217,4 @@ const SellerDashboard = () => {
     </div>
   );
 };
-
 export default SellerDashboard;

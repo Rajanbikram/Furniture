@@ -2,32 +2,22 @@ import React from 'react';
 import { useState } from 'react';
 import api from '../../services/api';
 import ListingCard from './ListingCard';
-
 const ListingTab = ({ listings, searchQuery, onToggleStatus, showToast }) => {
   console.log('🔍 ListingTab received listings:', listings);
   console.log('📊 Listings count:', listings?.length || 0);
-  
-  
   const activeListings = listings.filter(l => l.status === 'active');
-  
   console.log('✅ Active listings after filter:', activeListings.length);
-  
   const filteredListings = activeListings.filter(listing => {
     const query = searchQuery.toLowerCase();
     return listing.title?.toLowerCase().includes(query) ||
            listing.description?.toLowerCase().includes(query);
   });
-
   console.log('🔎 Filtered listings:', filteredListings.length);
-
   const handleToggleStatus = async (listingId) => {
     try {
       console.log('🔄 Toggling status for listing ID:', listingId);
-      
       const response = await api.put(`/seller/listings/${listingId}/toggle-status`);
-
       console.log('✅ Toggle response:', response.data);
-
       if (response.data.success) {
         showToast(
           response.data.data.status === 'active' ? 'Activated' : 'Paused',
@@ -42,17 +32,14 @@ const ListingTab = ({ listings, searchQuery, onToggleStatus, showToast }) => {
       showToast('Error', 'Failed to update listing status', 'error');
     }
   };
-
   const handleEdit = (listingId) => {
     showToast('Edit', 'Coming soon', 'success');
   };
-
   const handleShare = (listingId) => {
     const url = `https:
     navigator.clipboard.writeText(url);
     showToast('Copied!', 'Link copied to clipboard', 'success');
   };
-
   return (
     <div>
       <div>
@@ -61,7 +48,6 @@ const ListingTab = ({ listings, searchQuery, onToggleStatus, showToast }) => {
           {activeListings.length} active listing(s)
         </p>
       </div>
-
       {filteredListings.length > 0 ? (
         <div className="listings-grid">
           {filteredListings.map(listing => (
@@ -86,5 +72,4 @@ const ListingTab = ({ listings, searchQuery, onToggleStatus, showToast }) => {
     </div>
   );
 };
-
 export default ListingTab;

@@ -1,14 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-
 import { authAPI } from '../services/api';
-
 const AuthContext = createContext(null);
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem('token'));
-
   useEffect(() => {
     if (token) {
       fetchCurrentUser();
@@ -16,7 +12,6 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   }, [token]);
-
   const fetchCurrentUser = async () => {
     try {
       const response = await authAPI.getCurrentUser();
@@ -30,12 +25,10 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
   const login = async (credentials) => {
     try {
       const response = await authAPI.login(credentials);
       if (response.data.success) {
-        
         const { token, data } = response.data;
         localStorage.setItem('token', token);
         localStorage.setItem('userRole', data.role);
@@ -52,7 +45,6 @@ export const AuthProvider = ({ children }) => {
       };
     }
   };
-
   const register = async (userData) => {
     try {
       const response = await authAPI.register(userData);
@@ -64,7 +56,6 @@ export const AuthProvider = ({ children }) => {
       };
     }
   };
-
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userRole');
@@ -72,7 +63,6 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
   };
-
   const value = {
     user,
     loading,
@@ -81,14 +71,12 @@ export const AuthProvider = ({ children }) => {
     register,
     logout
   };
-
   return (
     <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 };
-
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -96,5 +84,4 @@ export const useAuth = () => {
   }
   return context;
 };
-
 export default AuthContext;

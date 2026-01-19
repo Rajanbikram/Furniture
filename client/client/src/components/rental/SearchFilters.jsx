@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useRental } from '../../contexts/RentalContext';
-
 const SearchFilters = () => {
   const { fetchProducts } = useRental();
   const [filters, setFilters] = useState({
@@ -11,13 +10,11 @@ const SearchFilters = () => {
     maxPrice: ''
   });
   const [showSuggestions, setShowSuggestions] = useState(false);
-
   const handleFilterChange = (key, value) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
     applyFilters(newFilters);
   };
-
   const applyFilters = (f) => {
     const params = {};
     if (f.search) params.search = f.search;
@@ -27,7 +24,6 @@ const SearchFilters = () => {
     if (f.maxPrice) params.maxPrice = f.maxPrice;
     fetchProducts(params);
   };
-
   const handlePriceChange = (value) => {
     if (value === 'all') {
       handleFilterChange('minPrice', '');
@@ -38,7 +34,6 @@ const SearchFilters = () => {
       applyFilters({ ...filters, minPrice: min, maxPrice: max });
     }
   };
-
   return (
     <div className="search-filters">
       <div className="search-bar">
@@ -77,5 +72,4 @@ const SearchFilters = () => {
     </div>
   );
 };
-
 export default SearchFilters;

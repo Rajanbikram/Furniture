@@ -1,5 +1,4 @@
 import React from 'react';
-
 function Header({ title, subtitle }) {
   return (
     <header className="header">
@@ -26,5 +25,4 @@ function Header({ title, subtitle }) {
     </header>
   );
 }
-
 export default Header;

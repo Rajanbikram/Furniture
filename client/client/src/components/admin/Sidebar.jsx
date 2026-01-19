@@ -1,5 +1,4 @@
 import React from 'react';
-
 function Sidebar({ activePage, onPageChange }) {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg> },
@@ -11,7 +10,6 @@ function Sidebar({ activePage, onPageChange }) {
     { id: 'promotions', label: 'Promotions', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg> },
     { id: 'analytics', label: 'Analytics', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg> },
   ];
-
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
@@ -50,5 +48,4 @@ function Sidebar({ activePage, onPageChange }) {
     </aside>
   );
 }
-
 export default Sidebar;
