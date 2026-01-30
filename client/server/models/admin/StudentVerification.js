@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+
 module.exports = (sequelize) => {
   const StudentVerification = sequelize.define('StudentVerification', {
     id: {
@@ -33,5 +34,6 @@ module.exports = (sequelize) => {
     tableName: 'student_verifications',
     timestamps: true
   });
+
   return StudentVerification;
 };

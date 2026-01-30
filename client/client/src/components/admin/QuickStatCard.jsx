@@ -1,4 +1,5 @@
 import React from 'react';
+
 function QuickStatCard({ icon, value, label, iconStyle }) {
   return (
     <div className="card quick-stat-card">
@@ -12,4 +13,5 @@ function QuickStatCard({ icon, value, label, iconStyle }) {
     </div>
   );
 }
+
 export default QuickStatCard;

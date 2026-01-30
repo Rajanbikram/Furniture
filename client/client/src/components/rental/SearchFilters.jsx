@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRental } from '../../contexts/RentalContext';
+
 const SearchFilters = () => {
   const { fetchProducts } = useRental();
   const [filters, setFilters] = useState({
@@ -10,11 +11,13 @@ const SearchFilters = () => {
     maxPrice: ''
   });
   const [showSuggestions, setShowSuggestions] = useState(false);
+
   const handleFilterChange = (key, value) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
     applyFilters(newFilters);
   };
+
   const applyFilters = (f) => {
     const params = {};
     if (f.search) params.search = f.search;
@@ -24,6 +27,7 @@ const SearchFilters = () => {
     if (f.maxPrice) params.maxPrice = f.maxPrice;
     fetchProducts(params);
   };
+
   const handlePriceChange = (value) => {
     if (value === 'all') {
       handleFilterChange('minPrice', '');
@@ -34,10 +38,11 @@ const SearchFilters = () => {
       applyFilters({ ...filters, minPrice: min, maxPrice: max });
     }
   };
+
   return (
     <div className="search-filters">
       <div className="search-bar">
-        <svg xmlns="http:
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="11" cy="11" r="8"/>
           <path d="m21 21-4.3-4.3"/>
         </svg>
@@ -72,4 +77,5 @@ const SearchFilters = () => {
     </div>
   );
 };
+
 export default SearchFilters;

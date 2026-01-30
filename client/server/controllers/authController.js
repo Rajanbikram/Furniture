@@ -1,10 +1,15 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { Seller, User } = require('../models');
+
+// Seller Registration
 const registerSeller = async (req, res) => {
   try {
+    // 🔍 DEBUG: Log entire request body
     console.log('🔍 Full Request Body:', JSON.stringify(req.body, null, 2));
+    
     const { name, email, password, bio } = req.body;
+
     console.log('📝 Seller registration attempt:', { 
       email, 
       name,
@@ -12,6 +17,8 @@ const registerSeller = async (req, res) => {
       hasEmail: !!email,
       hasPassword: !!password
     });
+
+    // Updated code (without phone)
     if (!name || !email || !password) {
       console.log('❌ Validation Failed! Missing fields:', {
         name: name || 'MISSING',
@@ -23,6 +30,7 @@ const registerSeller = async (req, res) => {
         message: 'Please provide all required fields (name, email, password)'
       });
     }
+
     const existingSeller = await Seller.findOne({ where: { email } });
     if (existingSeller) {
       console.log('❌ Seller already exists:', email);
@@ -31,7 +39,9 @@ const registerSeller = async (req, res) => {
         message: 'Seller with this email already exists'
       });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const seller = await Seller.create({
       name,
       email,
@@ -43,12 +53,15 @@ const registerSeller = async (req, res) => {
       totalEarnings: 0,
       isActive: true
     });
+
     console.log('✅ Seller created successfully:', seller.email);
+
     const token = jwt.sign(
       { id: seller.id, email: seller.email, role: 'seller' },
       process.env.JWT_SECRET || 'your-secret-key-change-in-production',
       { expiresIn: '7d' }
     );
+
     res.status(201).json({
       success: true,
       message: 'Seller registered successfully',
@@ -70,17 +83,23 @@ const registerSeller = async (req, res) => {
     });
   }
 };
+
+// Seller Login
 const loginSeller = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     console.log('🔐 Seller login attempt:', email);
+
     if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: 'Please provide email and password'
       });
     }
+
     const seller = await Seller.findOne({ where: { email } });
+    
     if (!seller) {
       console.log('❌ Seller not found:', email);
       return res.status(401).json({
@@ -88,6 +107,8 @@ const loginSeller = async (req, res) => {
         message: 'Invalid credentials'
       });
     }
+
+    // ✅ Check if seller account is active
     if (!seller.isActive) {
       console.log('❌ Seller account is deactivated:', email);
       return res.status(403).json({
@@ -95,8 +116,11 @@ const loginSeller = async (req, res) => {
         message: 'Your account has been deactivated. Please contact support.'
       });
     }
+
     console.log('✅ Seller found and active:', seller.email);
+
     const isPasswordValid = await bcrypt.compare(password, seller.password);
+    
     if (!isPasswordValid) {
       console.log('❌ Invalid password for seller:', email);
       return res.status(401).json({
@@ -104,13 +128,17 @@ const loginSeller = async (req, res) => {
         message: 'Invalid credentials'
       });
     }
+
     console.log('✅ Password valid, generating token...');
+
     const token = jwt.sign(
       { id: seller.id, email: seller.email, role: 'seller' },
       process.env.JWT_SECRET || 'your-secret-key-change-in-production',
       { expiresIn: '7d' }
     );
+
     console.log('✅ Login successful for seller:', seller.email);
+
     res.json({
       success: true,
       message: 'Seller login successful',
@@ -131,10 +159,15 @@ const loginSeller = async (req, res) => {
     });
   }
 };
+
+// User Registration (Renter/Admin)
 const registerUser = async (req, res) => {
   try {
+    // 🔍 DEBUG: Log entire request body
     console.log('🔍 Full Request Body:', JSON.stringify(req.body, null, 2));
+    
     const { fullName, email, password, role, isStudent } = req.body;
+
     console.log('📝 User registration attempt:', { 
       email, 
       fullName, 
@@ -143,6 +176,7 @@ const registerUser = async (req, res) => {
       hasEmail: !!email,
       hasPassword: !!password
     });
+
     if (!fullName || !email || !password) {
       console.log('❌ Validation Failed! Missing fields:', {
         fullName: fullName || 'MISSING',
@@ -154,6 +188,8 @@ const registerUser = async (req, res) => {
         message: 'Please provide all required fields'
       });
     }
+
+    // ✅ Check if role is provided and valid
     const userRole = role || 'renter';
     if (!['admin', 'renter'].includes(userRole)) {
       return res.status(400).json({
@@ -161,6 +197,7 @@ const registerUser = async (req, res) => {
         message: 'Invalid role. Must be admin or renter'
       });
     }
+
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       console.log('❌ User already exists:', email);
@@ -169,7 +206,9 @@ const registerUser = async (req, res) => {
         message: 'User already exists'
       });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await User.create({
       fullName,
       email,
@@ -177,12 +216,15 @@ const registerUser = async (req, res) => {
       role: userRole,
       isStudent: isStudent || false
     });
+
     console.log('✅ User created:', user.email, 'Role:', user.role);
+
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET || 'your-secret-key-change-in-production',
       { expiresIn: '7d' }
     );
+
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
@@ -205,16 +247,21 @@ const registerUser = async (req, res) => {
     });
   }
 };
+
+// User Login (Renter/Admin)
 const loginUser = async (req, res) => {
   try {
     const { email, password, role } = req.body;
+
     console.log('🔐 User login attempt:', email, 'Role:', role);
+
     if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: 'Please provide email and password'
       });
     }
+
     const user = await User.findOne({ where: { email } });
     if (!user) {
       console.log('❌ User not found:', email);
@@ -223,7 +270,10 @@ const loginUser = async (req, res) => {
         message: 'Invalid credentials'
       });
     }
+
     console.log('✅ User found:', user.email, 'Role:', user.role);
+
+    // ✅ Check if role matches (if role is provided in login)
     if (role && user.role !== role) {
       console.log('❌ Role mismatch. User role:', user.role, 'Login role:', role);
       return res.status(403).json({
@@ -231,6 +281,7 @@ const loginUser = async (req, res) => {
         message: `This account is not registered as ${role}`
       });
     }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       console.log('❌ Invalid password for user:', email);
@@ -239,13 +290,17 @@ const loginUser = async (req, res) => {
         message: 'Invalid credentials'
       });
     }
+
     console.log('✅ Password valid, generating token...');
+
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET || 'your-secret-key-change-in-production',
       { expiresIn: '7d' }
     );
+
     console.log('✅ Login successful for user:', user.email);
+
     res.json({
       success: true,
       message: 'Login successful',
@@ -267,6 +322,8 @@ const loginUser = async (req, res) => {
     });
   }
 };
+
+// Get Current User
 const getCurrentUser = async (req, res) => {
   try {
     res.json({
@@ -287,6 +344,7 @@ const getCurrentUser = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   registerSeller,
   loginSeller,

@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+
 module.exports = (sequelize) => {
   const Listing = sequelize.define('Listing', {
     id: {
@@ -51,5 +52,6 @@ module.exports = (sequelize) => {
     timestamps: true,
     underscored: true
   });
+
   return Listing;
 };

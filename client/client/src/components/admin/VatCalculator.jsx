@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
+
 function VatCalculator({ isOpen, onClose }) {
   const [amount, setAmount] = useState('');
   const [result, setResult] = useState(null);
+
   const calculateVat = (value) => {
     setAmount(value);
     if (value && !isNaN(value) && parseFloat(value) > 0) {
@@ -14,11 +16,13 @@ function VatCalculator({ isOpen, onClose }) {
       setResult(null);
     }
   };
+
   const handleClose = () => {
     setAmount('');
     setResult(null);
     onClose();
   };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -60,4 +64,5 @@ function VatCalculator({ isOpen, onClose }) {
     </Modal>
   );
 }
+
 export default VatCalculator;

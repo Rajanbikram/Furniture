@@ -1,13 +1,15 @@
 import React from 'react';
 import '../styles/components.css';
+
 const DealsCarousel = ({ deals, showToast, onLoginClick }) => {
   const handleViewDeal = () => {
     if (onLoginClick) {
-      onLoginClick(); 
+      onLoginClick(); // Show login page
     } else {
       showToast('Login Required', 'Please login to view exclusive deals');
     }
   };
+
   return (
     <div className="deals-carousel">
       {deals.map((deal) => (
@@ -22,6 +24,7 @@ const DealsCarousel = ({ deals, showToast, onLoginClick }) => {
               {deal.discount}% OFF
             </div>
           </div>
+
           <div className="deal-body">
             <span className="deal-badge">{deal.badge}</span>
             <h3 className="deal-title">{deal.title}</h3>
@@ -38,4 +41,5 @@ const DealsCarousel = ({ deals, showToast, onLoginClick }) => {
     </div>
   );
 };
+
 export default DealsCarousel;

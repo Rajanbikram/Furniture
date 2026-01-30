@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import '../styles/RegisterPage.css';
+
 const RegisterPage = () => {
   const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -13,61 +15,82 @@ const RegisterPage = () => {
     agreeTerms: false,
     isStudent: false
   });
+
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
+    
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' });
     }
   };
+
   const validateForm = () => {
     const newErrors = {};
+
     if (!formData.fullName.trim()) {
       newErrors.fullName = 'Full name is required';
     }
+
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
+
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
+
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
+
     if (!formData.role) {
       newErrors.role = 'Please select a role';
     }
+
     if (!formData.agreeTerms) {
       newErrors.agreeTerms = 'You must agree to terms & conditions';
     }
+
     return newErrors;
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     const newErrors = validateForm();
+    
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
+
     setLoading(true);
+
     try {
       let response;
+
+      // ✅ Route based on role
       if (formData.role === 'seller') {
+        // Seller registration - use 'name' instead of 'fullName'
         response = await authAPI.registerSeller({
-          name: formData.fullName,  
+          name: formData.fullName,  // Backend expects 'name' for sellers
           email: formData.email,
           password: formData.password
         });
       } else {
+        // Admin/Renter registration
         response = await authAPI.register({
           fullName: formData.fullName,
           email: formData.email,
@@ -76,6 +99,7 @@ const RegisterPage = () => {
           isStudent: formData.isStudent
         });
       }
+
       if (response.data.success) {
         alert(`✅ Registration successful!\nWelcome ${formData.fullName}!\n\nPlease login with your credentials.`);
         navigate('/login');
@@ -88,29 +112,34 @@ const RegisterPage = () => {
       setLoading(false);
     }
   };
+
   const handleBackToGuest = () => {
     navigate('/');
   };
+
   const handleLoginClick = () => {
     navigate('/login');
   };
+
   return (
     <div className="register-page">
       <div className="register-container">
-        {}
+        {/* Logo Section */}
         <div className="register-logo">
           <div className="logo-icon-large">🏠</div>
           <h1>RENTEASY NEPAL</h1>
           <p>Your trusted furniture rental partner</p>
         </div>
-        {}
+
+        {/* Title */}
         <div className="register-header">
           <h2>Create Account</h2>
           <p className="register-subtitle">Signup as Renter, Seller or Admin</p>
         </div>
-        {}
+
+        {/* Register Form */}
         <form onSubmit={handleSubmit} className="register-form">
-          {}
+          {/* Full Name */}
           <div className="form-group">
             <label htmlFor="fullName">
               Full Name <span className="required">*</span>
@@ -126,7 +155,8 @@ const RegisterPage = () => {
             />
             {errors.fullName && <span className="error-text">{errors.fullName}</span>}
           </div>
-          {}
+
+          {/* Email */}
           <div className="form-group">
             <label htmlFor="email">
               Email <span className="required">*</span>
@@ -143,7 +173,8 @@ const RegisterPage = () => {
             <span className="input-hint">Use .edu.np for student discount</span>
             {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
-          {}
+
+          {/* Password */}
           <div className="form-group">
             <label htmlFor="password">
               Password <span className="required">*</span>
@@ -159,7 +190,8 @@ const RegisterPage = () => {
             />
             {errors.password && <span className="error-text">{errors.password}</span>}
           </div>
-          {}
+
+          {/* Confirm Password */}
           <div className="form-group">
             <label htmlFor="confirmPassword">
               Confirm Password <span className="required">*</span>
@@ -175,7 +207,8 @@ const RegisterPage = () => {
             />
             {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}
           </div>
-          {}
+
+          {/* Role Selection */}
           <div className="form-group">
             <label htmlFor="role">
               Select Role <span className="required">*</span>
@@ -194,7 +227,8 @@ const RegisterPage = () => {
             </select>
             {errors.role && <span className="error-text">{errors.role}</span>}
           </div>
-          {}
+
+          {/* Checkboxes */}
           <div className="checkbox-group">
             <label className="checkbox-label">
               <input
@@ -207,7 +241,8 @@ const RegisterPage = () => {
             </label>
             {errors.agreeTerms && <span className="error-text">{errors.agreeTerms}</span>}
           </div>
-          {}
+
+          {/* Show isStudent only for renter role */}
           {formData.role === 'renter' && (
             <div className="checkbox-group">
               <label className="checkbox-label">
@@ -221,17 +256,20 @@ const RegisterPage = () => {
               </label>
             </div>
           )}
-          {}
+
+          {/* Error Message */}
           {errors.submit && (
             <div className="error-text" style={{ textAlign: 'center' }}>
               {errors.submit}
             </div>
           )}
-          {}
+
+          {/* Register Button */}
           <button type="submit" className="register-btn" disabled={loading}>
             {loading ? 'Registering...' : 'Register'}
           </button>
-          {}
+
+          {/* Back Button */}
           <button 
             type="button" 
             className="back-btn"
@@ -239,7 +277,8 @@ const RegisterPage = () => {
           >
             ← Back to Browse
           </button>
-          {}
+
+          {/* Login Link */}
           <p className="login-link">
             Already have an account?{' '}
             <button type="button" onClick={handleLoginClick}>
@@ -251,4 +290,5 @@ const RegisterPage = () => {
     </div>
   );
 };
+
 export default RegisterPage;

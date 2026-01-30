@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductsPage from "./pages/ProductsPage";
+
 const Router = () => (
   <BrowserRouter>
     <Routes>
@@ -7,4 +8,5 @@ const Router = () => (
     </Routes>
   </BrowserRouter>
 );
+
 export default Router;

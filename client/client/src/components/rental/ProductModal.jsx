@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { rentalAPI } from '../../services/api';
+
 const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
   const [productDetails, setProductDetails] = useState(null);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (product && isOpen) {
       fetchProductDetails();
     }
   }, [product, isOpen]);
+
   const fetchProductDetails = async () => {
     try {
       setLoading(true);
@@ -19,16 +22,19 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
       setLoading(false);
     }
   };
+
   if (!product || !isOpen) return null;
+
   const discount = Math.round(((product.originalPrice - product.pricePerMonth) / product.originalPrice) * 100);
   const details = productDetails || product;
+
   return (
     <div className={`modal-overlay ${isOpen ? 'show' : ''}`} onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{product.name}</h2>
           <button className="modal-close" onClick={onClose}>
-            <svg xmlns="http:
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6 6 18"/>
               <path d="m6 6 12 12"/>
             </svg>
@@ -53,7 +59,7 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
                 <div className="product-detail-rating">
                   <div className="stars">
                     {[1,2,3,4,5].map(star => (
-                      <svg key={star} xmlns="http:
+                      <svg key={star} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={star <= Math.round(product.rating) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={star <= Math.round(product.rating) ? 'filled' : 'empty'}>
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                       </svg>
                     ))}
@@ -78,7 +84,7 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
                   <p>{product.description}</p>
                 </div>
                 <div className="product-detail-actions">
-                  <button className="btn btn-primary" onClick={() => { onClose();  }}>
+                  <button className="btn btn-primary" onClick={() => { onClose(); /* Add to cart logic */ }}>
                     Add to Cart
                   </button>
                   <button className="btn btn-accent" onClick={() => onBookNow(product)}>
@@ -88,10 +94,11 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
               </div>
             </div>
           )}
+          
           {details.reviews && details.reviews.length > 0 && (
             <div className="reviews-section">
               <h4>
-                <svg xmlns="http:
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
                 </svg>
                 Customer Reviews
@@ -105,7 +112,7 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
                     </div>
                     <div className="review-stars">
                       {[1,2,3,4,5].map(star => (
-                        <svg key={star} xmlns="http:
+                        <svg key={star} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill={star <= review.rating ? 'var(--warning)' : 'none'} stroke={star <= review.rating ? 'var(--warning)' : 'var(--muted)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                         </svg>
                       ))}
@@ -122,4 +129,5 @@ const ProductModal = ({ product, isOpen, onClose, onBookNow, showToast }) => {
     </div>
   );
 };
+
 export default ProductModal;

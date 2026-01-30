@@ -1,8 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { rentalAPI } from '../services/api';
-import { authService } from '../services/authService';
+import authService from '../services/authService';
+
 const RentalContext = createContext();
+
 export const useRental = () => useContext(RentalContext);
+
 export const RentalProvider = ({ children, showToast }) => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
@@ -11,6 +14,7 @@ export const RentalProvider = ({ children, showToast }) => {
   const [compareList, setCompareList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(authService.getUser());
+
   useEffect(() => {
     fetchProducts();
     if (authService.isAuthenticated() && authService.isRenter()) {
@@ -19,6 +23,8 @@ export const RentalProvider = ({ children, showToast }) => {
       fetchRentals();
     }
   }, []);
+
+  // ✅ Clear all user-specific data
   const clearAllData = () => {
     console.log('🧹 Clearing all user data...');
     setCart([]);
@@ -28,10 +34,13 @@ export const RentalProvider = ({ children, showToast }) => {
     setUser(null);
     console.log('✅ All user data cleared');
   };
+
+  // ✅ NEW: Refetch all user data after login
   const refetchUserData = async () => {
     console.log('🔄 Refetching user data after login...');
     const currentUser = authService.getUser();
     setUser(currentUser);
+    
     if (authService.isAuthenticated() && authService.isRenter()) {
       console.log('🔄 User is renter, fetching cart, favorites, and rentals...');
       try {
@@ -48,12 +57,15 @@ export const RentalProvider = ({ children, showToast }) => {
       console.log('⚠️ User not authenticated or not a renter');
     }
   };
+
   const fetchProducts = async (filters = {}) => {
     try {
       setLoading(true);
       console.log('📦 Fetching products with filters:', filters);
+      
       const response = await rentalAPI.getProducts(filters);
       console.log('📦 API Response:', response.data);
+      
       if (response.data.success) {
         setProducts(response.data.data || []);
         console.log('✅ Products loaded:', response.data.data?.length || 0);
@@ -75,11 +87,13 @@ export const RentalProvider = ({ children, showToast }) => {
       setLoading(false);
     }
   };
+
   const fetchCart = async () => {
     try {
       console.log('🛒 Fetching cart...');
       const response = await rentalAPI.getCart();
       console.log('🛒 Cart response:', response.data);
+      
       if (response.data.success) {
         setCart(response.data.data || []);
         console.log('✅ Cart loaded:', response.data.data?.length || 0, 'items');
@@ -94,17 +108,20 @@ export const RentalProvider = ({ children, showToast }) => {
       setCart([]);
     }
   };
+
   const fetchFavorites = async () => {
     try {
       console.log('❤️ Fetching favorites...');
       const response = await rentalAPI.getFavorites();
       console.log('❤️ Favorites response:', response.data);
+      
       let favoritesData = [];
       if (response.data.success) {
         favoritesData = response.data.data || [];
       } else if (Array.isArray(response.data)) {
         favoritesData = response.data;
       }
+      
       setFavorites(favoritesData.map(f => f.productId || f.id));
       console.log('✅ Favorites loaded:', favoritesData.length, 'items');
     } catch (error) {
@@ -112,11 +129,13 @@ export const RentalProvider = ({ children, showToast }) => {
       setFavorites([]);
     }
   };
+
   const fetchRentals = async () => {
     try {
       console.log('📋 Fetching rentals...');
       const response = await rentalAPI.getRentals();
       console.log('📋 Rentals response:', response.data);
+      
       if (response.data.success) {
         setRentals(response.data.data || []);
         console.log('✅ Rentals loaded:', response.data.data?.length || 0, 'items');
@@ -131,28 +150,36 @@ export const RentalProvider = ({ children, showToast }) => {
       setRentals([]);
     }
   };
+
   const addToCart = async (productId, quantity = 1, tenure = 3) => {
     try {
       const token = localStorage.getItem('token');
       const userRole = localStorage.getItem('userRole');
+      
       console.log('🛒 Add to cart attempt:', { token: !!token, userRole, productId });
+      
       if (!token) {
         if (showToast) showToast('Please login', 'You need to login to add items to cart', 'error');
         return false;
       }
+      
       if (userRole !== 'renter') {
         if (showToast) showToast('Access denied', 'Only renters can add items to cart', 'error');
         return false;
       }
+      
       console.log('🛒 Adding to cart:', { productId, quantity, tenure });
+      
       await rentalAPI.addToCart({ productId, quantity, tenure });
       await fetchCart();
+      
       console.log('✅ Added to cart successfully');
       if (showToast) showToast('Added to cart', 'Product added successfully', 'success');
       return true;
     } catch (error) {
       console.error('❌ Error adding to cart:', error);
       console.error('❌ Error response:', error.response?.data);
+      
       if (error.response?.status === 401) {
         if (showToast) showToast('Session expired', 'Please login again', 'error');
       } else if (error.response?.status === 403) {
@@ -160,9 +187,11 @@ export const RentalProvider = ({ children, showToast }) => {
       } else {
         if (showToast) showToast('Error', error.response?.data?.message || 'Failed to add to cart', 'error');
       }
+      
       return false;
     }
   };
+
   const updateCartItem = async (id, data) => {
     try {
       await rentalAPI.updateCartItem(id, data);
@@ -173,6 +202,7 @@ export const RentalProvider = ({ children, showToast }) => {
       if (showToast) showToast('Error', 'Failed to update cart item', 'error');
     }
   };
+
   const removeFromCart = async (id) => {
     try {
       await rentalAPI.removeFromCart(id);
@@ -183,10 +213,13 @@ export const RentalProvider = ({ children, showToast }) => {
       if (showToast) showToast('Error', 'Failed to remove item', 'error');
     }
   };
+
   const toggleFavorite = async (productId) => {
     try {
       const { data } = await rentalAPI.toggleFavorite(productId);
+      
       const isFavorite = data.success ? data.data?.isFavorite : data.isFavorite;
+      
       if (isFavorite) {
         setFavorites([...favorites, productId]);
         if (showToast) showToast('Added to favorites', 'Product added to your favorites', 'success');
@@ -199,6 +232,7 @@ export const RentalProvider = ({ children, showToast }) => {
       if (showToast) showToast('Error', 'Failed to update favorites', 'error');
     }
   };
+
   const toggleCompare = (product) => {
     const exists = compareList.find(p => p.id === product.id);
     if (exists) {
@@ -211,10 +245,12 @@ export const RentalProvider = ({ children, showToast }) => {
       if (showToast) showToast('Limit reached', 'You can compare up to 3 products', 'error');
     }
   };
+
   const clearCompare = () => {
     setCompareList([]);
     if (showToast) showToast('Cleared', 'Comparison list cleared', 'success');
   };
+
   const createRental = async (data) => {
     try {
       await rentalAPI.createRental(data);
@@ -228,6 +264,7 @@ export const RentalProvider = ({ children, showToast }) => {
       return false;
     }
   };
+
   const renewRental = async (id) => {
     try {
       await rentalAPI.renewRental(id);
@@ -240,6 +277,7 @@ export const RentalProvider = ({ children, showToast }) => {
       return false;
     }
   };
+
   const value = {
     products, 
     cart, 
@@ -259,7 +297,8 @@ export const RentalProvider = ({ children, showToast }) => {
     renewRental, 
     setUser,
     clearAllData,
-    refetchUserData  
+    refetchUserData  // ✅ NEW: Export refetch function
   };
+
   return <RentalContext.Provider value={value}>{children}</RentalContext.Provider>;
 };

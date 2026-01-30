@@ -1,6 +1,9 @@
 import React from 'react';
+
 const HistoryTab = ({ history }) => {
+  // ✅ Transform API data to match UI structure
   const transformedHistory = history.map(rental => {
+    // Map status from API to UI format
     let uiStatus = 'pending';
     if (rental.status === 'returned') {
       uiStatus = 'completed';
@@ -11,6 +14,7 @@ const HistoryTab = ({ history }) => {
     } else if (rental.status === 'ending-soon') {
       uiStatus = 'ongoing';
     }
+
     return {
       id: rental.id,
       listingTitle: rental.product?.title || 'Unknown Product',
@@ -22,6 +26,7 @@ const HistoryTab = ({ history }) => {
       status: uiStatus
     };
   });
+
   const formatDate = (date) => {
     const dt = new Date(date);
     return dt.toLocaleDateString('en-US', {
@@ -30,7 +35,9 @@ const HistoryTab = ({ history }) => {
       day: 'numeric'
     });
   };
+
   const formatNPR = (amount) => `NPR ${amount.toLocaleString('en-NP')}`;
+
   const getStatusIcon = (status) => {
     switch (status) {
       case 'completed': return '✓';
@@ -39,10 +46,12 @@ const HistoryTab = ({ history }) => {
       default: return '📦';
     }
   };
+
   const completedCount = transformedHistory.filter(h => h.status === 'completed').length;
   const ongoingCount = transformedHistory.filter(h => h.status === 'ongoing').length;
   const disputedCount = transformedHistory.filter(h => h.status === 'disputed').length;
   const totalEarned = transformedHistory.reduce((sum, h) => sum + parseFloat(h.earnings), 0);
+
   return (
     <div>
       <div>
@@ -51,6 +60,7 @@ const HistoryTab = ({ history }) => {
           {transformedHistory.length} records
         </p>
       </div>
+
       {transformedHistory.length > 0 ? (
         <>
           <div className="history-timeline">
@@ -64,6 +74,7 @@ const HistoryTab = ({ history }) => {
                 <div className={`timeline-dot ${item.status}`}>
                   {getStatusIcon(item.status)}
                 </div>
+
                 <div className={`history-card ${item.status}`}>
                   <div style={{
                     display: 'flex',
@@ -84,6 +95,7 @@ const HistoryTab = ({ history }) => {
                       {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                     </span>
                   </div>
+
                   <div className="history-details">
                     <div>
                       <div style={{ color: 'var(--muted-fg)', fontSize: '.75rem' }}>
@@ -93,6 +105,7 @@ const HistoryTab = ({ history }) => {
                         {formatDate(item.startDate)}
                       </div>
                     </div>
+
                     <div>
                       <div style={{ color: 'var(--muted-fg)', fontSize: '.75rem' }}>
                         End Date
@@ -101,6 +114,7 @@ const HistoryTab = ({ history }) => {
                         {formatDate(item.endDate)}
                       </div>
                     </div>
+
                     <div>
                       <div style={{ color: 'var(--muted-fg)', fontSize: '.75rem' }}>
                         Duration
@@ -109,6 +123,7 @@ const HistoryTab = ({ history }) => {
                         {item.duration} months
                       </div>
                     </div>
+
                     <div>
                       <div style={{ color: 'var(--muted-fg)', fontSize: '.75rem' }}>
                         Earnings
@@ -126,6 +141,7 @@ const HistoryTab = ({ history }) => {
               </div>
             ))}
           </div>
+
           <div style={{
             padding: '1.5rem',
             background: 'rgba(107, 114, 128, 0.05)',
@@ -150,6 +166,7 @@ const HistoryTab = ({ history }) => {
                   Completed
                 </div>
               </div>
+
               <div>
                 <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>
                   {ongoingCount}
@@ -162,6 +179,7 @@ const HistoryTab = ({ history }) => {
                   Ongoing
                 </div>
               </div>
+
               <div>
                 <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>
                   {disputedCount}
@@ -174,6 +192,7 @@ const HistoryTab = ({ history }) => {
                   Disputed
                 </div>
               </div>
+
               <div>
                 <div style={{
                   fontSize: '1.5rem',
@@ -209,4 +228,5 @@ const HistoryTab = ({ history }) => {
     </div>
   );
 };
+
 export default HistoryTab;

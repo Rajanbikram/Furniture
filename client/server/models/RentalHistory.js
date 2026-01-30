@@ -49,11 +49,13 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     tableName: 'rental_history'
   });
+  
   RentalHistory.associate = (models) => {
     RentalHistory.belongsTo(models.Seller, {
       foreignKey: 'sellerId',
       as: 'seller'
     });
   };
+  
   return RentalHistory;
 };

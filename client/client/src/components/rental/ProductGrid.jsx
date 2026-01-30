@@ -1,11 +1,14 @@
 import React from 'react';
 import { useRental } from '../../contexts/RentalContext';
 import ProductCard from './ProductCard';
+
 const ProductGrid = ({ onViewDetails, showToast }) => {
   const { products, loading } = useRental();
+
   if (loading) {
     return <div style={{textAlign: 'center', padding: '3rem'}}>Loading products...</div>;
   }
+
   if (products.length === 0) {
     return (
       <div className="no-products">
@@ -13,6 +16,7 @@ const ProductGrid = ({ onViewDetails, showToast }) => {
       </div>
     );
   }
+
   return (
     <section className="section">
       <div className="products-header">
@@ -31,4 +35,5 @@ const ProductGrid = ({ onViewDetails, showToast }) => {
     </section>
   );
 };
+
 export default ProductGrid;

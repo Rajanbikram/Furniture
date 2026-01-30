@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Sidebar.css';
+
 const Sidebar = ({ 
   filters, 
   onFilterChange, 
@@ -10,34 +11,41 @@ const Sidebar = ({
   const handleCategoryChange = (category) => {
     onFilterChange({ ...filters, selectedCategory: category });
   };
+
   const handleLocationChange = (location) => {
     onFilterChange({ ...filters, location });
   };
+
   const handlePriceChange = (type, value) => {
     onFilterChange({
       ...filters,
       [type]: parseInt(value)
     });
   };
+
   const handleTenureChange = (e) => {
     onFilterChange({ ...filters, tenure: e.target.value });
   };
+
   return (
     <>
-      {}
+      {/* ✅ Toggle Button - Always Visible Outside Sidebar */}
       <button 
         onClick={onToggle}
         className="sidebar-toggle-btn"
       >
         {isOpen ? '✕ Close' : '☰ Filters'}
       </button>
-      {}
+
+      {/* Sidebar */}
       <aside className={`sidebar ${!isOpen ? 'sidebar-closed' : ''}`}>
-        {}
+        
+        {/* Filter Header */}
         <div className="filter-header">
           <h3>☰ Filters</h3>
         </div>
-        {}
+
+        {/* Category Filter */}
         <div className="filter-section">
           <h3 className="filter-title">Category</h3>
           <button
@@ -59,7 +67,8 @@ const Sidebar = ({
             ⚡ Appliances
           </button>
         </div>
-        {}
+
+        {/* Price Range */}
         <div className="filter-section">
           <h3 className="filter-title">Price Range</h3>
           <input
@@ -83,7 +92,8 @@ const Sidebar = ({
             <span>Rs. {filters.maxPrice}</span>
           </div>
         </div>
-        {}
+
+        {/* Rental Duration */}
         <div className="filter-section">
           <h3 className="filter-title">Rental Duration</h3>
           <select
@@ -99,7 +109,8 @@ const Sidebar = ({
             Prices adjust based on rental duration
           </p>
         </div>
-        {}
+
+        {/* Location Filter */}
         <div className="filter-section">
           <h3 className="filter-title">Location</h3>
           <button
@@ -121,7 +132,8 @@ const Sidebar = ({
             🏞️ Pokhara
           </button>
         </div>
-        {}
+
+        {/* Login Teaser */}
         <div className="login-teaser-box">
           <h4>🔓 More Filters Available</h4>
           <p>Login to access advanced search options</p>
@@ -130,4 +142,5 @@ const Sidebar = ({
     </>
   );
 };
+
 export default Sidebar;

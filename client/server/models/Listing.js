@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
+
 const Listing = sequelize.define('Listing', {
   id: {
     type: DataTypes.UUID,
@@ -71,4 +72,5 @@ const Listing = sequelize.define('Listing', {
   tableName: 'listings',
   underscored: true
 });
+
 module.exports = Listing;

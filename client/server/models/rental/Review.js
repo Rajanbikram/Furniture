@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../../config/database');
+
 const RentalReview = sequelize.define('RentalReview', {
   id: { 
     type: DataTypes.INTEGER, 
@@ -21,4 +22,5 @@ const RentalReview = sequelize.define('RentalReview', {
   tableName: 'rental_reviews',
   underscored: true
 });
+
 module.exports = RentalReview;

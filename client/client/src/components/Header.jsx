@@ -1,39 +1,46 @@
 import React, { useState } from 'react';
 import '../styles/Header.css';
+
 const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+
   const handleSearchInput = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
     onSearch(value);
     setShowSuggestions(value.length > 0);
   };
+
   const handleSuggestionClick = (product) => {
     setSearchQuery(product.title);
     onSearch(product.title);
     setShowSuggestions(false);
   };
+
   const handleLoginClick = () => {
     if (onLoginClick) {
-      onLoginClick(); 
+      onLoginClick(); // Call the login function
     } else {
       showToast('Login Required', 'Login functionality coming soon!');
     }
   };
+
   const handleRegisterClick = () => {
     if (onRegisterClick) {
-      onRegisterClick(); 
+      onRegisterClick(); // Call the register function
     } else {
       showToast('Register', 'Registration functionality coming soon!');
     }
   };
+
   const filteredSuggestions = products
     .filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()))
     .slice(0, 6);
+
   return (
     <header className="header-fixed">
-      {}
+      {/* Guest Banner */}
       <div className="guest-banner">
         🎉 Guest Mode - 
         <button 
@@ -43,10 +50,11 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
           Login for Cart & Exclusive Discounts!
         </button>
       </div>
-      {}
+
+      {/* Main Header */}
       <div className="header-main-container">
         <div className="header-content">
-          {}
+          {/* Logo */}
           <div className="logo-section">
             <div className="logo-icon">🏠</div>
             <div className="logo-text">
@@ -54,7 +62,8 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
               <p className="text-xs text-muted m-0">Furniture & Appliances</p>
             </div>
           </div>
-          {}
+
+          {/* Search Bar */}
           <div className="search-wrapper">
             <span className="search-icon-span">🔍</span>
             <input
@@ -67,7 +76,8 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
               className="search-input"
               autoComplete="off"
             />
-            {}
+
+            {/* Suggestions Dropdown */}
             {showSuggestions && filteredSuggestions.length > 0 && (
               <div className="suggestions-dropdown">
                 {filteredSuggestions.map((product) => (
@@ -83,7 +93,8 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
               </div>
             )}
           </div>
-          {}
+
+          {/* Auth Buttons */}
           <div className="auth-buttons-group">
             <button 
               onClick={handleLoginClick}
@@ -107,4 +118,5 @@ const Header = ({ onSearch, showToast, products, onLoginClick, onRegisterClick }
     </header>
   );
 };
+
 export default Header;

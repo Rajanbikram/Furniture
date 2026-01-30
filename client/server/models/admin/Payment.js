@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+
 module.exports = (sequelize) => {
   const Payment = sequelize.define('Payment', {
     id: {
@@ -26,5 +27,6 @@ module.exports = (sequelize) => {
     timestamps: true,
     underscored: false  // ✅ IMPORTANT: Set to false because DB uses camelCase
   });
+  
   return Payment;
 };

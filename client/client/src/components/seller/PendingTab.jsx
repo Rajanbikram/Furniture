@@ -1,6 +1,8 @@
 import React from 'react';
+
 const PendingTab = ({ listings, showToast }) => {
   const formatNPR = (amount) => `NPR ${amount.toLocaleString('en-NP')}`;
+  
   const formatDate = (date) => {
     const dt = new Date(date);
     return dt.toLocaleDateString('en-US', {
@@ -9,9 +11,11 @@ const PendingTab = ({ listings, showToast }) => {
       day: 'numeric'
     });
   };
+  
   const handleRefresh = () => {
     showToast('Refreshed', 'Listings refreshed', 'success');
   };
+  
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -25,6 +29,7 @@ const PendingTab = ({ listings, showToast }) => {
           🔄 Refresh
         </button>
       </div>
+      
       {listings.length > 0 ? (
         <>
           <div style={{ marginTop: '1.5rem' }}>
@@ -66,6 +71,7 @@ const PendingTab = ({ listings, showToast }) => {
               </div>
             ))}
           </div>
+          
           <div style={{
             padding: '1rem',
             background: 'rgba(107, 114, 128, 0.05)',
@@ -86,4 +92,5 @@ const PendingTab = ({ listings, showToast }) => {
     </div>
   );
 };
+
 export default PendingTab;
